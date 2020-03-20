@@ -1,2 +1,3 @@
 # kn-source-github
-Kn plugin for GitHub event source
+
+The `kn-github` plugin for managing GiHub sources events on Knative using the `kn` client
