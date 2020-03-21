@@ -23,10 +23,16 @@ import (
 )
 
 func main() {
-	commandFactory := factories.NewGitHubCommandFactory()
-	flagsFactory := factories.NewGitHubFlagsFactory()
-	runEFactory := factories.NewGitHubRunEFactory()
-	err := core.NewKnSourceCommand(commandFactory, flagsFactory, runEFactory).Execute()
+	gitHubParamsFactory := factories.NewGitHubSourceParamsFactory()
+	gitHubSourceParams := gitHubParamsFactory.CreateGitHubSourceParams()
+	knSourceParams := gitHubParamsFactory.KnSourceParams()
+
+	gitHubClientFactory := factories.NewGitHubSourceClientFactory(gitHubParamsFactory)
+	gitHubCommandFactory := factories.NewGitHubSourceCommandFactory(gitHubParamsFactory)
+	gitHubFlagsFactory := factories.NewGitHubSourceFlagsFactory(gitHubParamsFactory)
+	gitHubRunEFactory := factories.NewGitHubSourceRunEFactory(gitHubSourceParams, gitHubClientFactory)
+
+	err := core.NewKnSourceCommand(knSourceParams, gitHubCommandFactory, gitHubFlagsFactory, gitHubRunEFactory).Execute()
 	if err != nil {
 		if err.Error() != "subcommand is required" {
 			fmt.Fprintln(os.Stderr, err)

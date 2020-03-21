@@ -15,12 +15,12 @@
 package source
 
 import (
-	"github.com/maximilien/kn-source-pkg/pkg/commands"
+	"github.com/maximilien/kn-source-pkg/pkg/types"
 	"github.com/spf13/cobra"
 )
 
 // NewDeleteCommand for creating event sources
-func NewDeleteCommand(params *commands.KnSourceParams) *cobra.Command {
+func NewDeleteCommand(params *types.KnSourceParams) *cobra.Command {
 	deleteCmd := &cobra.Command{
 		Use:     "delete NAME [flags]",
 		Short:   "delete {{.Name}} source",

@@ -15,19 +15,24 @@
 package client
 
 import (
-	sourceclient "github.com/maximilien/kn-source-pkg/pkg/client"
+	"github.com/maximilien/kn-source-github/pkg/types"
+	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
-type GitHubSourceClient interface {
-	//TODO: add accessor to different sources here
-}
-
 type gitHubSourceClient struct {
-	namespace string
+	gitHubSourceParamsFactory types.GitHubSourceParamsFactory
 }
 
-func NewSourcesClient(namespace string) sourceclient.SourcesClient {
+func NewGitHubSourceClient(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) types.GitHubSourceClient {
 	return &gitHubSourceClient{
-		namespace: namespace,
+		gitHubSourceParamsFactory: gitHubSourceParamsFactory,
 	}
+}
+
+func (client *gitHubSourceClient) KnSourceParams() *sourcetypes.KnSourceParams {
+	return client.gitHubSourceParamsFactory.KnSourceParams()
+}
+
+func (client *gitHubSourceClient) GitHubSourceParams() *types.GitHubSourceParams {
+	return client.gitHubSourceParamsFactory.GitHubSourceParams()
 }

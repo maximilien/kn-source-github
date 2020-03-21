@@ -15,54 +15,73 @@
 package factories
 
 import (
-	sourcefactories "github.com/maximilien/kn-source-pkg/pkg/factories"
+	"github.com/maximilien/kn-source-github/pkg/types"
 
-	"github.com/maximilien/kn-source-pkg/pkg/commands"
+	sourcefactories "github.com/maximilien/kn-source-pkg/pkg/factories"
+	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 
 	"github.com/spf13/cobra"
 )
 
-type GitHubCommandFactory struct {
-	defaultFactory commands.CommandFactory
+type gitHubSourceCommandFactory struct {
+	gitHubSourceParamsFactory types.GitHubSourceParamsFactory
+	defaultCommandFactory     sourcetypes.CommandFactory
 }
 
-func NewGitHubCommandFactory() commands.CommandFactory {
-	return &GitHubCommandFactory{
-		defaultFactory: sourcefactories.NewDefaultCommandFactory(),
+func NewGitHubSourceCommandFactory(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) types.GitHubSourceCommandFactory {
+	return &gitHubSourceCommandFactory{
+		gitHubSourceParamsFactory: gitHubSourceParamsFactory,
+		defaultCommandFactory:     sourcefactories.NewDefaultCommandFactory(gitHubSourceParamsFactory.KnSourceParams()),
 	}
 }
 
-func (f *GitHubCommandFactory) SourceCommand() *cobra.Command {
-	sourceCmd := f.defaultFactory.SourceCommand()
+func (f *gitHubSourceCommandFactory) GitHubSourceParams() *types.GitHubSourceParams {
+	return f.gitHubSourceParamsFactory.GitHubSourceParams()
+}
+
+func (f *gitHubSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.gitHubSourceParamsFactory.KnSourceParams()
+}
+
+func (f *gitHubSourceCommandFactory) SourceCommand() *cobra.Command {
+	sourceCmd := f.defaultCommandFactory.SourceCommand()
 	sourceCmd.Use = "github"
 	sourceCmd.Short = "Knative eventing GitHub source plugin"
 	sourceCmd.Long = "Manage your Knative GitHub eventing sources"
 	return sourceCmd
 }
 
-func (f *GitHubCommandFactory) CreateCommand(params *commands.KnSourceParams) *cobra.Command {
-	createCmd := f.defaultFactory.CreateCommand(params)
+func (f *gitHubSourceCommandFactory) CreateCommand() *cobra.Command {
+	createCmd := f.defaultCommandFactory.CreateCommand()
 	createCmd.Short = "create NAME"
+	createCmd.Example = `#Creates a new GitHub source with NAME
+kn source github create github-name`
 	return createCmd
 }
 
-func (f *GitHubCommandFactory) DeleteCommand(params *commands.KnSourceParams) *cobra.Command {
-	deleteCmd := f.defaultFactory.DeleteCommand(params)
+func (f *gitHubSourceCommandFactory) DeleteCommand() *cobra.Command {
+	deleteCmd := f.defaultCommandFactory.DeleteCommand()
 	deleteCmd.Short = "delete NAME"
 	deleteCmd.Long = "delete a GitHub source"
+	deleteCmd.Example = `#Deletes a GitHub source with NAME
+kn source github delete github-name`
 	return deleteCmd
 }
 
-func (f *GitHubCommandFactory) UpdateCommand(params *commands.KnSourceParams) *cobra.Command {
-	updateCmd := f.defaultFactory.CreateCommand(params)
+func (f *gitHubSourceCommandFactory) UpdateCommand() *cobra.Command {
+	updateCmd := f.defaultCommandFactory.UpdateCommand()
 	updateCmd.Short = "update NAME"
 	updateCmd.Long = "update a GitHub source"
+	updateCmd.Example = `#Updates a GitHub source with NAME
+kn source github update github-name`
 	return updateCmd
 }
 
-func (f *GitHubCommandFactory) DescribeCommand(params *commands.KnSourceParams) *cobra.Command {
-	describeCmd := f.defaultFactory.CreateCommand(params)
+func (f *gitHubSourceCommandFactory) DescribeCommand() *cobra.Command {
+	describeCmd := f.defaultCommandFactory.DescribeCommand()
 	describeCmd.Short = "describe NAME"
 	describeCmd.Long = "update a GitHub source"
+	describeCmd.Example = `#Describes a GitHub source with NAME
+kn source github describe github-name`
 	return describeCmd
 }

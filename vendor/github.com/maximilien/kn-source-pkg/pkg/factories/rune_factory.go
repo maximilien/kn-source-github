@@ -17,41 +17,55 @@ package factories
 import (
 	"fmt"
 
-	"github.com/maximilien/kn-source-pkg/pkg/commands"
+	"github.com/maximilien/kn-source-pkg/pkg/types"
 
 	"github.com/spf13/cobra"
 )
 
-type DefautRunEFactory struct{}
-
-func NewDefaultRunEFactory() commands.RunEFactory {
-	return &DefautRunEFactory{}
+type DefautRunEFactory struct {
+	knSourceParams *types.KnSourceParams
+	knSourceClient types.KnSourceClient
 }
 
-func (f *DefautRunEFactory) CreateRunE() commands.RunE {
+func NewDefaultRunEFactory(knSourceParams *types.KnSourceParams, clientFactory types.ClientFactory) types.RunEFactory {
+	return &DefautRunEFactory{
+		knSourceParams: knSourceParams,
+		knSourceClient: clientFactory.CreateKnSourceClient(),
+	}
+}
+
+func (f *DefautRunEFactory) KnSourceParams() *types.KnSourceParams {
+	return f.knSourceParams
+}
+
+func (f *DefautRunEFactory) KnSourceClient() types.KnSourceClient {
+	return f.knSourceClient
+}
+
+func (f *DefautRunEFactory) CreateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("create RunE called: %s, args: %#v\n", cmd.Name(), args)
+		fmt.Printf("create RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
 		return nil
 	}
 }
 
-func (f *DefautRunEFactory) DeleteRunE() commands.RunE {
+func (f *DefautRunEFactory) DeleteRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("delete RunE called: %s, args: %#v\n", cmd.Name(), args)
+		fmt.Printf("delete RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
 		return nil
 	}
 }
 
-func (f *DefautRunEFactory) UpdateRunE() commands.RunE {
+func (f *DefautRunEFactory) UpdateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("update RunE called: %s, args: %#v\n", cmd.Name(), args)
+		fmt.Printf("update RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
 		return nil
 	}
 }
 
-func (f *DefautRunEFactory) DescribeRunE() commands.RunE {
+func (f *DefautRunEFactory) DescribeRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("describe RunE called: %s, args: %#v\n", cmd.Name(), args)
+		fmt.Printf("describe RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
 		return nil
 	}
 }

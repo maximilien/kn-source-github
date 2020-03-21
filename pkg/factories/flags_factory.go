@@ -15,29 +15,45 @@
 package factories
 
 import (
-	"github.com/maximilien/kn-source-pkg/pkg/commands"
+	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
+
+	"github.com/maximilien/kn-source-github/pkg/types"
 
 	"github.com/spf13/pflag"
 )
 
-type GitHubFlagsFactory struct{}
-
-func NewGitHubFlagsFactory() commands.FlagsFactory {
-	return &GitHubFlagsFactory{}
+type gitHubSourceFlagsFactory struct {
+	githubSourceParamsFactory types.GitHubSourceParamsFactory
 }
 
-func (f *GitHubFlagsFactory) CreateFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("create", pflag.ExitOnError)
+func NewGitHubSourceFlagsFactory(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) sourcetypes.FlagsFactory {
+	return &gitHubSourceFlagsFactory{
+		githubSourceParamsFactory: gitHubSourceParamsFactory,
+	}
 }
 
-func (f *GitHubFlagsFactory) DeleteFlags() *pflag.FlagSet {
+func (f *gitHubSourceFlagsFactory) GitHubSourceParams() *types.GitHubSourceParams {
+	return f.githubSourceParamsFactory.GitHubSourceParams()
+}
+
+func (f *gitHubSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.githubSourceParamsFactory.KnSourceParams()
+}
+
+func (f *gitHubSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
+	flagSet := pflag.NewFlagSet("create", pflag.ExitOnError)
+	flagSet.Int("i", 1234, "help message for i flag")
+	return flagSet
+}
+
+func (f *gitHubSourceFlagsFactory) DeleteFlags() *pflag.FlagSet {
 	return pflag.NewFlagSet("delete", pflag.ExitOnError)
 }
 
-func (f *GitHubFlagsFactory) UpdateFlags() *pflag.FlagSet {
+func (f *gitHubSourceFlagsFactory) UpdateFlags() *pflag.FlagSet {
 	return pflag.NewFlagSet("create", pflag.ExitOnError)
 }
 
-func (f *GitHubFlagsFactory) DescribeFlags() *pflag.FlagSet {
+func (f *gitHubSourceFlagsFactory) DescribeFlags() *pflag.FlagSet {
 	return pflag.NewFlagSet("create", pflag.ExitOnError)
 }

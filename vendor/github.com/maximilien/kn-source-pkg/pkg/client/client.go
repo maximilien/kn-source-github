@@ -12,21 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package v1alpha1
+package client
 
-type SourcesClient interface {
-	//TODO: add accessor to different sources here
+import (
+	"github.com/maximilien/kn-source-pkg/pkg/types"
+)
+
+type knSourceClient struct {
+	knSourceParams *types.KnSourceParams
 }
 
-type sourcesClient struct {
-	namespace string
-
-	client SourcesClient
-}
-
-func NewSourcesClient(namespace string, client SourcesClient) SourcesClient {
-	return &sourcesClient{
-		namespace: namespace,
-		client:    client,
+func NewKnSourceClient(knSourceParams *types.KnSourceParams) types.KnSourceClient {
+	return &knSourceClient{
+		knSourceParams: knSourceParams,
 	}
+}
+
+func (client *knSourceClient) KnSourceParams() *types.KnSourceParams {
+	return client.knSourceParams
 }

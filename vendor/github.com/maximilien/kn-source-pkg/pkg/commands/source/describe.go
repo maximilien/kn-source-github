@@ -15,12 +15,12 @@
 package source
 
 import (
-	"github.com/maximilien/kn-source-pkg/pkg/commands"
+	"github.com/maximilien/kn-source-pkg/pkg/types"
 	"github.com/spf13/cobra"
 )
 
 // NewDescribeCommand for creating event sources
-func NewDescribeCommand(params *commands.KnSourceParams) *cobra.Command {
+func NewDescribeCommand(params *types.KnSourceParams) *cobra.Command {
 	describeCmd := &cobra.Command{
 		Use:     "describe NAME [flags]",
 		Short:   "describe {{.Name}} source",
