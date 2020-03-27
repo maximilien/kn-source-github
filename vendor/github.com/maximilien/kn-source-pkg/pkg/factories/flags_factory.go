@@ -16,38 +16,51 @@ package factories
 
 import (
 	"github.com/maximilien/kn-source-pkg/pkg/types"
+	"knative.dev/client/pkg/kn/commands"
 
 	"github.com/spf13/pflag"
 )
 
 type DefautFlagsFactory struct {
-	knSourceParams *types.KnSourceParams
+	knSourceFactory types.KnSourceFactory
 }
 
-func NewDefaultFlagsFactory(knSourceParams *types.KnSourceParams) types.FlagsFactory {
+func NewDefaultFlagsFactory(knSourceFactory types.KnSourceFactory) types.FlagsFactory {
 	return &DefautFlagsFactory{
-		knSourceParams: knSourceParams,
+		knSourceFactory: knSourceFactory,
 	}
 }
 
-func (f *DefautFlagsFactory) KnSourceParams() *types.KnSourceParams {
-	return f.knSourceParams
+func (f *DefautFlagsFactory) KnSourceFactory() types.KnSourceFactory {
+	return f.knSourceFactory
 }
 
 func (f *DefautFlagsFactory) CreateFlags() *pflag.FlagSet {
 	flagSet := pflag.NewFlagSet("create", pflag.ExitOnError)
-	flagSet.Int("i", 1234, "help message for i flag")
+	f.addNamespaceFlag(flagSet)
 	return flagSet
 }
 
 func (f *DefautFlagsFactory) DeleteFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("delete", pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet("delete", pflag.ExitOnError)
+	f.addNamespaceFlag(flagSet)
+	return flagSet
 }
 
 func (f *DefautFlagsFactory) UpdateFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("create", pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet("update", pflag.ExitOnError)
+	f.addNamespaceFlag(flagSet)
+	return flagSet
 }
 
 func (f *DefautFlagsFactory) DescribeFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("create", pflag.ExitOnError)
+	flagSet := pflag.NewFlagSet("describe", pflag.ExitOnError)
+	f.addNamespaceFlag(flagSet)
+	return flagSet
+}
+
+// Private
+
+func (f *DefautFlagsFactory) addNamespaceFlag(flagSet *pflag.FlagSet) {
+	commands.AddNamespaceFlags(flagSet, false)
 }

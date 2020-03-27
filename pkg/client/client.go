@@ -20,19 +20,30 @@ import (
 )
 
 type gitHubSourceClient struct {
-	gitHubSourceParamsFactory types.GitHubSourceParamsFactory
+	knSourceClient sourcetypes.KnSourceClient
+
+	gitHubSourceFactory types.GitHubSourceFactory
 }
 
-func NewGitHubSourceClient(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) types.GitHubSourceClient {
+func NewGitHubSourceClient(gitHubSourceFactory types.GitHubSourceFactory, namespace string) types.GitHubSourceClient {
 	return &gitHubSourceClient{
-		gitHubSourceParamsFactory: gitHubSourceParamsFactory,
+		gitHubSourceFactory: gitHubSourceFactory,
+		knSourceClient:      gitHubSourceFactory.CreateKnSourceClient(namespace),
 	}
 }
 
+func (client *gitHubSourceClient) Namespace() string {
+	return client.knSourceClient.Namespace()
+}
+
+func (client *gitHubSourceClient) KnSourceClient() sourcetypes.KnSourceClient {
+	return client
+}
+
 func (client *gitHubSourceClient) KnSourceParams() *sourcetypes.KnSourceParams {
-	return client.gitHubSourceParamsFactory.KnSourceParams()
+	return client.gitHubSourceFactory.GitHubSourceParams().KnSourceParams
 }
 
 func (client *gitHubSourceClient) GitHubSourceParams() *types.GitHubSourceParams {
-	return client.gitHubSourceParamsFactory.GitHubSourceParams()
+	return client.gitHubSourceFactory.GitHubSourceParams()
 }

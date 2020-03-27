@@ -24,23 +24,31 @@ import (
 )
 
 type gitHubSourceCommandFactory struct {
-	gitHubSourceParamsFactory types.GitHubSourceParamsFactory
-	defaultCommandFactory     sourcetypes.CommandFactory
+	gitHubSourceFactory   types.GitHubSourceFactory
+	defaultCommandFactory sourcetypes.CommandFactory
 }
 
-func NewGitHubSourceCommandFactory(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) types.GitHubSourceCommandFactory {
+func NewGitHubSourceCommandFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubCommandFactory {
 	return &gitHubSourceCommandFactory{
-		gitHubSourceParamsFactory: gitHubSourceParamsFactory,
-		defaultCommandFactory:     sourcefactories.NewDefaultCommandFactory(gitHubSourceParamsFactory.KnSourceParams()),
+		gitHubSourceFactory:   gitHubSourceFactory,
+		defaultCommandFactory: sourcefactories.NewDefaultCommandFactory(gitHubSourceFactory),
 	}
 }
 
+func (f *gitHubSourceCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.gitHubSourceFactory
+}
+
+func (f *gitHubSourceCommandFactory) GitHubSourceFactory() types.GitHubSourceFactory {
+	return f.gitHubSourceFactory
+}
+
 func (f *gitHubSourceCommandFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceParamsFactory.GitHubSourceParams()
+	return f.gitHubSourceFactory.GitHubSourceParams()
 }
 
 func (f *gitHubSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.gitHubSourceParamsFactory.KnSourceParams()
+	return f.gitHubSourceFactory.KnSourceParams()
 }
 
 func (f *gitHubSourceCommandFactory) SourceCommand() *cobra.Command {

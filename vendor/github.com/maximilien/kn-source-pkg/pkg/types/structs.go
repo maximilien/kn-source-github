@@ -15,9 +15,17 @@
 package types
 
 import (
+	"github.com/spf13/cobra"
 	"knative.dev/client/pkg/kn/commands"
+	"knative.dev/client/pkg/kn/commands/flags"
 )
 
 type KnSourceParams struct {
 	commands.KnParams
+
+	SinkFlag flags.SinkFlags
+}
+
+func (p *KnSourceParams) AddCommonFlags(cmd *cobra.Command) {
+	p.SinkFlag.Add(cmd)
 }

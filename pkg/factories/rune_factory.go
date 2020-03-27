@@ -24,57 +24,60 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type gitHubSourceRunEFactory struct {
-	gitHubSourceParams *types.GitHubSourceParams
-	gitHubSourceClient types.GitHubSourceClient
+type gitHubRunEFactory struct {
+	gitHubSourceFactory types.GitHubSourceFactory
+	gitHubSourceClient  types.GitHubSourceClient
 }
 
-func NewGitHubSourceRunEFactory(gitHubSourceParams *types.GitHubSourceParams,
-	gitHubSourceClientFactory types.GitHubSourceClientFactory) types.GitHubSourceRunEFactory {
-	return &gitHubSourceRunEFactory{
-		gitHubSourceParams: gitHubSourceParams,
-		gitHubSourceClient: gitHubSourceClientFactory.CreateGitHubSourceClient(),
+func NewGitHubSourceRunEFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubRunEFactory {
+	return &gitHubRunEFactory{
+		gitHubSourceFactory: gitHubSourceFactory,
+		gitHubSourceClient:  gitHubSourceFactory.GitHubSourceClient(),
 	}
 }
 
-func (f *gitHubSourceRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.GitHubSourceParams().KnSourceParams
+func (f *gitHubRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.GitHubSourceFactory().KnSourceParams()
 }
 
-func (f *gitHubSourceRunEFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceParams
+func (f *gitHubRunEFactory) KnSourceClient(cmd *cobra.Command) (sourcetypes.KnSourceClient, error) {
+	return f.GitHubSourceClient().(sourcetypes.KnSourceClient), nil
 }
 
-func (f *gitHubSourceRunEFactory) KnSourceClient() sourcetypes.KnSourceClient {
-	return f.GitHubSourceClient()
-}
-
-func (f *gitHubSourceRunEFactory) GitHubSourceClient() types.GitHubSourceClient {
+func (f *gitHubRunEFactory) GitHubSourceClient() types.GitHubSourceClient {
 	return f.gitHubSourceClient
 }
 
-func (f *gitHubSourceRunEFactory) CreateRunE() sourcetypes.RunE {
+func (f *gitHubRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.gitHubSourceFactory
+}
+
+func (f *gitHubRunEFactory) GitHubSourceFactory() types.GitHubSourceFactory {
+	return f.gitHubSourceFactory
+}
+
+func (f *gitHubRunEFactory) CreateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.GitHubSourceClient())
 		return nil
 	}
 }
 
-func (f *gitHubSourceRunEFactory) DeleteRunE() sourcetypes.RunE {
+func (f *gitHubRunEFactory) DeleteRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.GitHubSourceClient())
 		return nil
 	}
 }
 
-func (f *gitHubSourceRunEFactory) UpdateRunE() sourcetypes.RunE {
+func (f *gitHubRunEFactory) UpdateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.GitHubSourceClient())
 		return nil
 	}
 }
 
-func (f *gitHubSourceRunEFactory) DescribeRunE() sourcetypes.RunE {
+func (f *gitHubRunEFactory) DescribeRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.GitHubSourceClient())
 		return nil

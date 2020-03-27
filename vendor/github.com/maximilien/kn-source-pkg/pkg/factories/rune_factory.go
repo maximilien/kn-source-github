@@ -23,49 +23,77 @@ import (
 )
 
 type DefautRunEFactory struct {
-	knSourceParams *types.KnSourceParams
-	knSourceClient types.KnSourceClient
+	knSourceFactory types.KnSourceFactory
 }
 
-func NewDefaultRunEFactory(knSourceParams *types.KnSourceParams, clientFactory types.ClientFactory) types.RunEFactory {
+func NewDefaultRunEFactory(knSourceFactory types.KnSourceFactory) types.RunEFactory {
 	return &DefautRunEFactory{
-		knSourceParams: knSourceParams,
-		knSourceClient: clientFactory.CreateKnSourceClient(),
+		knSourceFactory: knSourceFactory,
 	}
 }
 
-func (f *DefautRunEFactory) KnSourceParams() *types.KnSourceParams {
-	return f.knSourceParams
+func (f *DefautRunEFactory) KnSourceFactory() types.KnSourceFactory {
+	return f.knSourceFactory
 }
 
-func (f *DefautRunEFactory) KnSourceClient() types.KnSourceClient {
-	return f.knSourceClient
+func (f *DefautRunEFactory) KnSourceClient(cmd *cobra.Command) (types.KnSourceClient, error) {
+	knParams := f.knSourceFactory.KnSourceParams().KnParams
+	namespace, err := knParams.GetNamespace(cmd)
+	if err != nil {
+		return nil, err
+	}
+
+	return f.knSourceFactory.CreateKnSourceClient(namespace), nil
 }
 
 func (f *DefautRunEFactory) CreateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("create RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
+		knSourceClient, err := f.KnSourceClient(cmd)
+		if err != nil {
+			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
+		}
+
+		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+
 		return nil
 	}
 }
 
 func (f *DefautRunEFactory) DeleteRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("delete RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
+		knSourceClient, err := f.KnSourceClient(cmd)
+		if err != nil {
+			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
+		}
+
+		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+
 		return nil
 	}
 }
 
 func (f *DefautRunEFactory) UpdateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("update RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
+		knSourceClient, err := f.KnSourceClient(cmd)
+		if err != nil {
+			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
+		}
+
+		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+
 		return nil
 	}
 }
 
 func (f *DefautRunEFactory) DescribeRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		fmt.Printf("describe RunE called: %s, args: %#v, client: %#v\n", cmd.Name(), args, f.knSourceClient)
+		knSourceClient, err := f.KnSourceClient(cmd)
+		if err != nil {
+			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
+		}
+
+		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+
 		return nil
 	}
 }

@@ -18,42 +18,35 @@ import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
-type GitHubSource interface {
-	GitHubSourceParams() *GitHubSourceParams
-}
-
 type GitHubSourceClient interface {
-	GitHubSource
 	sourcetypes.KnSourceClient
 }
 
-type GitHubSourceParamsFactory interface {
-	GitHubSource
-	sourcetypes.ParamsFactory
+type GitHubSourceFactory interface {
+	sourcetypes.KnSourceFactory
+
+	GitHubSourceParams() *GitHubSourceParams
+	GitHubSourceClient() GitHubSourceClient
 
 	CreateGitHubSourceParams() *GitHubSourceParams
+	CreateGitHubSourceClient(namespace string) GitHubSourceClient
 }
 
-type GitHubSourceClientFactory interface {
-	GitHubSource
-	sourcetypes.ClientFactory
-
-	CreateGitHubSourceClient() GitHubSourceClient
-}
-
-type GitHubSourceCommandFactory interface {
-	GitHubSource
+type GitHubCommandFactory interface {
 	sourcetypes.CommandFactory
+
+	GitHubSourceFactory() GitHubSourceFactory
 }
 
-type GitHubSourceFlagsFactory interface {
-	GitHubSource
+type GitHubFlagsFactory interface {
 	sourcetypes.FlagsFactory
+
+	GitHubSourceFactory() GitHubSourceFactory
 }
 
-type GitHubSourceRunEFactory interface {
-	GitHubSource
+type GitHubRunEFactory interface {
 	sourcetypes.RunEFactory
 
+	GitHubSourceFactory() GitHubSourceFactory
 	GitHubSourceClient() GitHubSourceClient
 }

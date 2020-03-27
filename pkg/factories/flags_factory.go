@@ -23,21 +23,29 @@ import (
 )
 
 type gitHubSourceFlagsFactory struct {
-	githubSourceParamsFactory types.GitHubSourceParamsFactory
+	gitHubSourceFactory types.GitHubSourceFactory
 }
 
-func NewGitHubSourceFlagsFactory(gitHubSourceParamsFactory types.GitHubSourceParamsFactory) sourcetypes.FlagsFactory {
+func NewGitHubSourceFlagsFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubFlagsFactory {
 	return &gitHubSourceFlagsFactory{
-		githubSourceParamsFactory: gitHubSourceParamsFactory,
+		gitHubSourceFactory: gitHubSourceFactory,
 	}
 }
 
-func (f *gitHubSourceFlagsFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.githubSourceParamsFactory.GitHubSourceParams()
+func (f *gitHubSourceFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.gitHubSourceFactory
 }
 
 func (f *gitHubSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.githubSourceParamsFactory.KnSourceParams()
+	return f.gitHubSourceFactory.KnSourceParams()
+}
+
+func (f *gitHubSourceFlagsFactory) GitHubSourceParams() *types.GitHubSourceParams {
+	return f.gitHubSourceFactory.GitHubSourceParams()
+}
+
+func (f *gitHubSourceFlagsFactory) GitHubSourceFactory() types.GitHubSourceFactory {
+	return f.gitHubSourceFactory
 }
 
 func (f *gitHubSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
