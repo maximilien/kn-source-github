@@ -15,6 +15,7 @@
 package factories
 
 import (
+	sourcefactories "github.com/maximilien/kn-source-pkg/pkg/factories"
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 
 	"github.com/maximilien/kn-source-github/pkg/types"
@@ -23,11 +24,13 @@ import (
 )
 
 type gitHubSourceFlagsFactory struct {
+	defaultFlagsFactory sourcetypes.FlagsFactory
 	gitHubSourceFactory types.GitHubSourceFactory
 }
 
 func NewGitHubSourceFlagsFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubFlagsFactory {
 	return &gitHubSourceFlagsFactory{
+		defaultFlagsFactory: sourcefactories.NewDefaultFlagsFactory(gitHubSourceFactory),
 		gitHubSourceFactory: gitHubSourceFactory,
 	}
 }
@@ -49,19 +52,25 @@ func (f *gitHubSourceFlagsFactory) GitHubSourceFactory() types.GitHubSourceFacto
 }
 
 func (f *gitHubSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
-	flagSet := pflag.NewFlagSet("create", pflag.ExitOnError)
-	flagSet.Int("i", 1234, "help message for i flag")
+	flagSet := f.defaultFlagsFactory.CreateFlags()
+	//TODO: add GitHub source flags
 	return flagSet
 }
 
 func (f *gitHubSourceFlagsFactory) DeleteFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("delete", pflag.ExitOnError)
+	flagSet := f.defaultFlagsFactory.DeleteFlags()
+	//TODO: add GitHub source flags
+	return flagSet
 }
 
 func (f *gitHubSourceFlagsFactory) UpdateFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("create", pflag.ExitOnError)
+	flagSet := f.defaultFlagsFactory.UpdateFlags()
+	//TODO: add GitHub source flags
+	return flagSet
 }
 
 func (f *gitHubSourceFlagsFactory) DescribeFlags() *pflag.FlagSet {
-	return pflag.NewFlagSet("create", pflag.ExitOnError)
+	flagSet := f.defaultFlagsFactory.DescribeFlags()
+	//TODO: add GitHub source flags
+	return flagSet
 }

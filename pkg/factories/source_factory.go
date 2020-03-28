@@ -84,7 +84,7 @@ func (f *gitHubSourceFactory) CreateGitHubSourceClient(namespace string) types.G
 
 func (f *gitHubSourceFactory) initGitHubSourceClient(namespace string) {
 	if f.gitHubSourceClient == nil {
-		f.gitHubSourceClient = client.NewGitHubSourceClient(f, namespace)
+		f.gitHubSourceClient = client.NewGitHubSourceClient(f.GitHubSourceParams(), namespace)
 	}
 }
 

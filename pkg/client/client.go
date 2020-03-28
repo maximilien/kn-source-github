@@ -16,19 +16,21 @@ package client
 
 import (
 	"github.com/maximilien/kn-source-github/pkg/types"
+	sourceclient "github.com/maximilien/kn-source-pkg/pkg/client"
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
 type gitHubSourceClient struct {
-	knSourceClient sourcetypes.KnSourceClient
-
-	gitHubSourceFactory types.GitHubSourceFactory
+	namespace          string
+	gitHubSourceParams *types.GitHubSourceParams
+	knSourceClient     sourcetypes.KnSourceClient
 }
 
-func NewGitHubSourceClient(gitHubSourceFactory types.GitHubSourceFactory, namespace string) types.GitHubSourceClient {
+func NewGitHubSourceClient(gitHubSourceParams *types.GitHubSourceParams, namespace string) types.GitHubSourceClient {
 	return &gitHubSourceClient{
-		gitHubSourceFactory: gitHubSourceFactory,
-		knSourceClient:      gitHubSourceFactory.CreateKnSourceClient(namespace),
+		namespace:          namespace,
+		gitHubSourceParams: gitHubSourceParams,
+		knSourceClient:     sourceclient.NewKnSourceClient(gitHubSourceParams.KnSourceParams, namespace),
 	}
 }
 
@@ -41,9 +43,9 @@ func (client *gitHubSourceClient) KnSourceClient() sourcetypes.KnSourceClient {
 }
 
 func (client *gitHubSourceClient) KnSourceParams() *sourcetypes.KnSourceParams {
-	return client.gitHubSourceFactory.GitHubSourceParams().KnSourceParams
+	return client.GitHubSourceParams().KnSourceParams
 }
 
 func (client *gitHubSourceClient) GitHubSourceParams() *types.GitHubSourceParams {
-	return client.gitHubSourceFactory.GitHubSourceParams()
+	return client.gitHubSourceParams
 }
