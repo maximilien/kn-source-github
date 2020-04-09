@@ -34,28 +34,6 @@ func NewGitHubSourceRunEFactory(gitHubSourceFactory types.GitHubSourceFactory) t
 	}
 }
 
-func (f *gitHubRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.GitHubSourceFactory().KnSourceParams()
-}
-
-func (f *gitHubRunEFactory) KnSourceClient(namespace string) sourcetypes.KnSourceClient {
-	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
-}
-
-func (f *gitHubRunEFactory) GitHubSourceClient(namespace string) types.GitHubSourceClient {
-	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
-}
-
-func (f *gitHubRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.GitHubSourceFactory()
-}
-
-func (f *gitHubRunEFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
-}
-
-// Factory *RunE methods
-
 func (f *gitHubRunEFactory) CreateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceParams().GetNamespace(cmd)

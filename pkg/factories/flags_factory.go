@@ -35,22 +35,6 @@ func NewGitHubSourceFlagsFactory(gitHubSourceFactory types.GitHubSourceFactory) 
 	}
 }
 
-func (f *gitHubSourceFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.gitHubSourceFactory
-}
-
-func (f *gitHubSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.gitHubSourceFactory.KnSourceParams()
-}
-
-func (f *gitHubSourceFlagsFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceFactory.GitHubSourceParams()
-}
-
-func (f *gitHubSourceFlagsFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
-}
-
 func (f *gitHubSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.CreateFlags()
 	//TODO: add GitHub source flags

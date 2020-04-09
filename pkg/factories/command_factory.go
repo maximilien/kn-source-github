@@ -35,22 +35,6 @@ func NewGitHubSourceCommandFactory(gitHubSourceFactory types.GitHubSourceFactory
 	}
 }
 
-func (f *gitHubSourceCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.gitHubSourceFactory
-}
-
-func (f *gitHubSourceCommandFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
-}
-
-func (f *gitHubSourceCommandFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceFactory.GitHubSourceParams()
-}
-
-func (f *gitHubSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.gitHubSourceFactory.KnSourceParams()
-}
-
 func (f *gitHubSourceCommandFactory) SourceCommand() *cobra.Command {
 	sourceCmd := f.defaultCommandFactory.SourceCommand()
 	sourceCmd.Use = "github"
