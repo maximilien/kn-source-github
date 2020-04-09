@@ -26,13 +26,11 @@ import (
 
 type gitHubRunEFactory struct {
 	gitHubSourceFactory types.GitHubSourceFactory
-	gitHubSourceClient  types.GitHubSourceClient
 }
 
 func NewGitHubSourceRunEFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubRunEFactory {
 	return &gitHubRunEFactory{
 		gitHubSourceFactory: gitHubSourceFactory,
-		gitHubSourceClient:  gitHubSourceFactory.GitHubSourceClient(),
 	}
 }
 
@@ -40,78 +38,72 @@ func (f *gitHubRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
 	return f.GitHubSourceFactory().KnSourceParams()
 }
 
-func (f *gitHubRunEFactory) KnSourceClient(cmd *cobra.Command) (sourcetypes.KnSourceClient, error) {
-	return f.GitHubSourceFactory().GitHubSourceClient(), nil
+func (f *gitHubRunEFactory) KnSourceClient(namespace string) sourcetypes.KnSourceClient {
+	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
 }
 
-func (f *gitHubRunEFactory) GitHubSourceClient(cmd *cobra.Command) (types.GitHubSourceClient, error) {
-	knParams := f.gitHubSourceFactory.KnSourceParams().KnParams
-	namespace, err := knParams.GetNamespace(cmd)
-	if err != nil {
-		return nil, err
-	}
-
-	f.gitHubSourceClient = f.gitHubSourceFactory.CreateKnSourceClient(namespace)
-
-	return f.gitHubSourceClient, nil
+func (f *gitHubRunEFactory) GitHubSourceClient(namespace string) types.GitHubSourceClient {
+	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
 }
 
 func (f *gitHubRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.gitHubSourceFactory
+	return f.GitHubSourceFactory()
 }
 
 func (f *gitHubRunEFactory) GitHubSourceFactory() types.GitHubSourceFactory {
 	return f.gitHubSourceFactory
 }
 
+// Factory *RunE methods
+
 func (f *gitHubRunEFactory) CreateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		var err error
-		f.gitHubSourceClient, err = f.GitHubSourceClient(cmd)
+		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
-			return fmt.Errorf("could not access gitHubSourceClient for command %s", cmd.Name())
+			return err
 		}
 
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.gitHubSourceClient)
+		gitHubSourceClient := f.GitHubSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
 		return nil
 	}
 }
 
 func (f *gitHubRunEFactory) DeleteRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		var err error
-		f.gitHubSourceClient, err = f.GitHubSourceClient(cmd)
+		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
-			return fmt.Errorf("could not access gitHubSourceClient for command %s", cmd.Name())
+			return err
 		}
 
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.gitHubSourceClient)
+		gitHubSourceClient := f.GitHubSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
 		return nil
 	}
 }
 
 func (f *gitHubRunEFactory) UpdateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		var err error
-		f.gitHubSourceClient, err = f.GitHubSourceClient(cmd)
+		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
-			return fmt.Errorf("could not access gitHubSourceClient for command %s", cmd.Name())
+			return err
 		}
 
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.gitHubSourceClient)
+		gitHubSourceClient := f.GitHubSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
 		return nil
 	}
 }
 
 func (f *gitHubRunEFactory) DescribeRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		var err error
-		f.gitHubSourceClient, err = f.GitHubSourceClient(cmd)
+		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
-			return fmt.Errorf("could not access gitHubSourceClient for command %s", cmd.Name())
+			return err
 		}
 
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, f.gitHubSourceClient)
+		gitHubSourceClient := f.GitHubSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
 		return nil
 	}
 }

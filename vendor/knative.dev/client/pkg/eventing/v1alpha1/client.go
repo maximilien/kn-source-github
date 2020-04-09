@@ -62,7 +62,7 @@ func NewKnEventingClient(client client_v1alpha1.EventingV1alpha1Interface, names
 
 //CreateTrigger is used to create an instance of trigger
 func (c *knEventingClient) CreateTrigger(trigger *v1alpha1.Trigger) error {
-	trigger, err := c.client.Triggers(c.namespace).Create(trigger)
+	_, err := c.client.Triggers(c.namespace).Create(trigger)
 	if err != nil {
 		return kn_errors.GetError(err)
 	}
@@ -112,7 +112,7 @@ func (c *knEventingClient) ListTriggers() (*v1alpha1.TriggerList, error) {
 
 //CreateTrigger is used to create an instance of trigger
 func (c *knEventingClient) UpdateTrigger(trigger *v1alpha1.Trigger) error {
-	trigger, err := c.client.Triggers(c.namespace).Update(trigger)
+	_, err := c.client.Triggers(c.namespace).Update(trigger)
 	if err != nil {
 		return kn_errors.GetError(err)
 	}
@@ -180,18 +180,18 @@ func (b *TriggerBuilder) InjectBroker(inject bool) *TriggerBuilder {
 }
 
 func (b *TriggerBuilder) Filters(filters map[string]string) *TriggerBuilder {
+	if len(filters) == 0 {
+		b.trigger.Spec.Filter = &v1alpha1.TriggerFilter{}
+		return b
+	}
 	filter := b.trigger.Spec.Filter
 	if filter == nil {
 		filter = &v1alpha1.TriggerFilter{}
 		b.trigger.Spec.Filter = filter
 	}
-	attributes := filter.Attributes
-	if attributes == nil {
-		attributes = &v1alpha1.TriggerFilterAttributes{}
-		filter.Attributes = attributes
-	}
+	filter.Attributes = &v1alpha1.TriggerFilterAttributes{}
 	for k, v := range filters {
-		(*attributes)[k] = v
+		(*filter.Attributes)[k] = v
 	}
 	return b
 }

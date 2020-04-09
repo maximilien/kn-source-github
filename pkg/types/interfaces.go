@@ -15,8 +15,6 @@
 package types
 
 import (
-	"github.com/spf13/cobra"
-
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
@@ -50,5 +48,5 @@ type GitHubRunEFactory interface {
 	sourcetypes.RunEFactory
 
 	GitHubSourceFactory() GitHubSourceFactory
-	GitHubSourceClient(cmd *cobra.Command) (GitHubSourceClient, error)
+	GitHubSourceClient(namespace string) GitHubSourceClient
 }

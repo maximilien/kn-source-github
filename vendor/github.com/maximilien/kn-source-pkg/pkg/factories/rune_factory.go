@@ -1,4 +1,4 @@
-// Copyright © 2018 The Knative Authors
+// Copyright © 2020 The Knative Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,24 +36,22 @@ func (f *DefautRunEFactory) KnSourceFactory() types.KnSourceFactory {
 	return f.knSourceFactory
 }
 
-func (f *DefautRunEFactory) KnSourceClient(cmd *cobra.Command) (types.KnSourceClient, error) {
-	knParams := f.knSourceFactory.KnSourceParams().KnParams
-	namespace, err := knParams.GetNamespace(cmd)
-	if err != nil {
-		return nil, err
-	}
-
-	return f.knSourceFactory.CreateKnSourceClient(namespace), nil
+func (f *DefautRunEFactory) KnSourceClient(namespace string) types.KnSourceClient {
+	return f.knSourceFactory.CreateKnSourceClient(namespace)
 }
 
 func (f *DefautRunEFactory) CreateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		knSourceClient, err := f.KnSourceClient(cmd)
+		namespace, err := f.KnSourceFactory().KnSourceParams().GetNamespace(cmd)
+		if err != nil {
+			return err
+		}
+		knSourceClient := f.KnSourceClient(namespace)
 		if err != nil {
 			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
 		}
 
-		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+		fmt.Printf("%s RunE called: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, knSourceClient, knSourceClient.KnSourceParams().SinkFlag)
 
 		return nil
 	}
@@ -61,12 +59,16 @@ func (f *DefautRunEFactory) CreateRunE() types.RunE {
 
 func (f *DefautRunEFactory) DeleteRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		knSourceClient, err := f.KnSourceClient(cmd)
+		namespace, err := f.KnSourceFactory().KnSourceParams().GetNamespace(cmd)
+		if err != nil {
+			return err
+		}
+		knSourceClient := f.KnSourceClient(namespace)
 		if err != nil {
 			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
 		}
 
-		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+		fmt.Printf("%s RunE called: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, knSourceClient, knSourceClient.KnSourceParams().SinkFlag)
 
 		return nil
 	}
@@ -74,12 +76,16 @@ func (f *DefautRunEFactory) DeleteRunE() types.RunE {
 
 func (f *DefautRunEFactory) UpdateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		knSourceClient, err := f.KnSourceClient(cmd)
+		namespace, err := f.KnSourceFactory().KnSourceParams().GetNamespace(cmd)
+		if err != nil {
+			return err
+		}
+		knSourceClient := f.KnSourceClient(namespace)
 		if err != nil {
 			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
 		}
 
-		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+		fmt.Printf("%s RunE called: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, knSourceClient, knSourceClient.KnSourceParams().SinkFlag)
 
 		return nil
 	}
@@ -87,12 +93,16 @@ func (f *DefautRunEFactory) UpdateRunE() types.RunE {
 
 func (f *DefautRunEFactory) DescribeRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
-		knSourceClient, err := f.KnSourceClient(cmd)
+		namespace, err := f.KnSourceFactory().KnSourceParams().GetNamespace(cmd)
+		if err != nil {
+			return err
+		}
+		knSourceClient := f.KnSourceClient(namespace)
 		if err != nil {
 			return fmt.Errorf("could not access KnSourceClient for command %s", cmd.Name())
 		}
 
-		fmt.Printf("%s RunE called: args: %#v, client: %#v\n", cmd.Name(), args, knSourceClient)
+		fmt.Printf("%s RunE called: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, knSourceClient, knSourceClient.KnSourceParams().SinkFlag)
 
 		return nil
 	}
