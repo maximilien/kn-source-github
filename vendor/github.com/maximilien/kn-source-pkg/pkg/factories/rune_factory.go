@@ -32,14 +32,6 @@ func NewDefaultRunEFactory(knSourceFactory types.KnSourceFactory) types.RunEFact
 	}
 }
 
-func (f *DefautRunEFactory) KnSourceFactory() types.KnSourceFactory {
-	return f.knSourceFactory
-}
-
-func (f *DefautRunEFactory) KnSourceClient(namespace string) types.KnSourceClient {
-	return f.knSourceFactory.CreateKnSourceClient(namespace)
-}
-
 func (f *DefautRunEFactory) CreateRunE() types.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceFactory().KnSourceParams().GetNamespace(cmd)
