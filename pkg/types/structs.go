@@ -18,7 +18,7 @@ import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
-type GitHubSourceParams struct {
+type GHSourceParams struct {
 	KnSourceParams *sourcetypes.KnSourceParams
 
 	//TODO: add GitHub source specific params fields

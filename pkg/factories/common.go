@@ -20,60 +20,80 @@ import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
+// GHSourceFactory
+
+func (f *ghSourceFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	if f.ghSourceParams == nil {
+		f.initGHSourceParams()
+	}
+	return f.ghSourceParams.KnSourceParams
+}
+
+func (f *ghSourceFactory) GHSourceParams() *types.GHSourceParams {
+	if f.ghSourceParams == nil {
+		f.initGHSourceParams()
+	}
+	return f.ghSourceParams
+}
+
+func (f *ghSourceFactory) GHSourceClient() types.GHSourceClient {
+	return f.ghSourceClient
+}
+
 // CommandFactory
 
-func (f *gitHubSourceCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.gitHubSourceFactory
+func (f *ghSourceCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.ghSourceFactory
 }
 
-func (f *gitHubSourceCommandFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
+func (f *ghSourceCommandFactory) GHSourceFactory() types.GHSourceFactory {
+	return f.ghSourceFactory
 }
 
-func (f *gitHubSourceCommandFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceFactory.GitHubSourceParams()
+func (f *ghSourceCommandFactory) GHSourceParams() *types.GHSourceParams {
+	return f.ghSourceFactory.GHSourceParams()
 }
 
-func (f *gitHubSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.gitHubSourceFactory.KnSourceParams()
+func (f *ghSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.ghSourceFactory.KnSourceParams()
 }
 
 // FlagsFactory
 
-func (f *gitHubSourceFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.gitHubSourceFactory
+func (f *ghSourceFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.ghSourceFactory
 }
 
-func (f *gitHubSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.gitHubSourceFactory.KnSourceParams()
+func (f *ghSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.ghSourceFactory.KnSourceParams()
 }
 
-func (f *gitHubSourceFlagsFactory) GitHubSourceParams() *types.GitHubSourceParams {
-	return f.gitHubSourceFactory.GitHubSourceParams()
+func (f *ghSourceFlagsFactory) GHSourceParams() *types.GHSourceParams {
+	return f.ghSourceFactory.GHSourceParams()
 }
 
-func (f *gitHubSourceFlagsFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
+func (f *ghSourceFlagsFactory) GHSourceFactory() types.GHSourceFactory {
+	return f.ghSourceFactory
 }
 
 // RunEFactory
 
-func (f *gitHubRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
-	return f.GitHubSourceFactory().KnSourceParams()
+func (f *ghRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+	return f.GHSourceFactory().KnSourceParams()
 }
 
-func (f *gitHubRunEFactory) KnSourceClient(namespace string) sourcetypes.KnSourceClient {
-	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
+func (f *ghRunEFactory) KnSourceClient(namespace string) sourcetypes.KnSourceClient {
+	return f.GHSourceFactory().CreateGHSourceClient(namespace)
 }
 
-func (f *gitHubRunEFactory) GitHubSourceClient(namespace string) types.GitHubSourceClient {
-	return f.GitHubSourceFactory().CreateGitHubSourceClient(namespace)
+func (f *ghRunEFactory) GHSourceClient(namespace string) types.GHSourceClient {
+	return f.GHSourceFactory().CreateGHSourceClient(namespace)
 }
 
-func (f *gitHubRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
-	return f.GitHubSourceFactory()
+func (f *ghRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+	return f.GHSourceFactory()
 }
 
-func (f *gitHubRunEFactory) GitHubSourceFactory() types.GitHubSourceFactory {
-	return f.gitHubSourceFactory
+func (f *ghRunEFactory) GHSourceFactory() types.GHSourceFactory {
+	return f.ghSourceFactory
 }

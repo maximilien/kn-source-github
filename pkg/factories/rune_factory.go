@@ -24,64 +24,64 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type gitHubRunEFactory struct {
-	gitHubSourceFactory types.GitHubSourceFactory
+type ghRunEFactory struct {
+	ghSourceFactory types.GHSourceFactory
 }
 
-func NewGitHubSourceRunEFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubRunEFactory {
-	return &gitHubRunEFactory{
-		gitHubSourceFactory: gitHubSourceFactory,
+func NewGHSourceRunEFactory(ghSourceFactory types.GHSourceFactory) types.GHRunEFactory {
+	return &ghRunEFactory{
+		ghSourceFactory: ghSourceFactory,
 	}
 }
 
-func (f *gitHubRunEFactory) CreateRunE() sourcetypes.RunE {
+func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
 			return err
 		}
 
-		gitHubSourceClient := f.GitHubSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
+		ghSourceClient := f.GHSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
 		return nil
 	}
 }
 
-func (f *gitHubRunEFactory) DeleteRunE() sourcetypes.RunE {
+func (f *ghRunEFactory) DeleteRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
 			return err
 		}
 
-		gitHubSourceClient := f.GitHubSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
+		ghSourceClient := f.GHSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
 		return nil
 	}
 }
 
-func (f *gitHubRunEFactory) UpdateRunE() sourcetypes.RunE {
+func (f *ghRunEFactory) UpdateRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
 			return err
 		}
 
-		gitHubSourceClient := f.GitHubSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
+		ghSourceClient := f.GHSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
 		return nil
 	}
 }
 
-func (f *gitHubRunEFactory) DescribeRunE() sourcetypes.RunE {
+func (f *ghRunEFactory) DescribeRunE() sourcetypes.RunE {
 	return func(cmd *cobra.Command, args []string) error {
 		namespace, err := f.KnSourceParams().GetNamespace(cmd)
 		if err != nil {
 			return err
 		}
 
-		gitHubSourceClient := f.GitHubSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, gitHubSourceClient)
+		ghSourceClient := f.GHSourceClient(namespace)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
 		return nil
 	}
 }

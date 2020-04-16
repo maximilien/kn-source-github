@@ -23,19 +23,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type gitHubSourceCommandFactory struct {
-	gitHubSourceFactory   types.GitHubSourceFactory
+type ghSourceCommandFactory struct {
+	ghSourceFactory       types.GHSourceFactory
 	defaultCommandFactory sourcetypes.CommandFactory
 }
 
-func NewGitHubSourceCommandFactory(gitHubSourceFactory types.GitHubSourceFactory) types.GitHubCommandFactory {
-	return &gitHubSourceCommandFactory{
-		gitHubSourceFactory:   gitHubSourceFactory,
-		defaultCommandFactory: sourcefactories.NewDefaultCommandFactory(gitHubSourceFactory),
+func NewGHSourceCommandFactory(ghSourceFactory types.GHSourceFactory) types.GHCommandFactory {
+	return &ghSourceCommandFactory{
+		ghSourceFactory:       ghSourceFactory,
+		defaultCommandFactory: sourcefactories.NewDefaultCommandFactory(ghSourceFactory),
 	}
 }
 
-func (f *gitHubSourceCommandFactory) SourceCommand() *cobra.Command {
+func (f *ghSourceCommandFactory) SourceCommand() *cobra.Command {
 	sourceCmd := f.defaultCommandFactory.SourceCommand()
 	sourceCmd.Use = "github"
 	sourceCmd.Short = "Knative eventing GitHub source plugin"
@@ -43,7 +43,7 @@ func (f *gitHubSourceCommandFactory) SourceCommand() *cobra.Command {
 	return sourceCmd
 }
 
-func (f *gitHubSourceCommandFactory) CreateCommand() *cobra.Command {
+func (f *ghSourceCommandFactory) CreateCommand() *cobra.Command {
 	createCmd := f.defaultCommandFactory.CreateCommand()
 	createCmd.Short = "create NAME"
 	createCmd.Example = `#Creates a new GitHub source with NAME
@@ -51,7 +51,7 @@ kn source github create github-name`
 	return createCmd
 }
 
-func (f *gitHubSourceCommandFactory) DeleteCommand() *cobra.Command {
+func (f *ghSourceCommandFactory) DeleteCommand() *cobra.Command {
 	deleteCmd := f.defaultCommandFactory.DeleteCommand()
 	deleteCmd.Short = "delete NAME"
 	deleteCmd.Long = "delete a GitHub source"
@@ -60,7 +60,7 @@ kn source github delete github-name`
 	return deleteCmd
 }
 
-func (f *gitHubSourceCommandFactory) UpdateCommand() *cobra.Command {
+func (f *ghSourceCommandFactory) UpdateCommand() *cobra.Command {
 	updateCmd := f.defaultCommandFactory.UpdateCommand()
 	updateCmd.Short = "update NAME"
 	updateCmd.Long = "update a GitHub source"
@@ -69,7 +69,7 @@ kn source github update github-name`
 	return updateCmd
 }
 
-func (f *gitHubSourceCommandFactory) DescribeCommand() *cobra.Command {
+func (f *ghSourceCommandFactory) DescribeCommand() *cobra.Command {
 	describeCmd := f.defaultCommandFactory.DescribeCommand()
 	describeCmd.Short = "describe NAME"
 	describeCmd.Long = "update a GitHub source"

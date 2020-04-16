@@ -20,32 +20,32 @@ import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
-type gitHubSourceClient struct {
-	namespace          string
-	gitHubSourceParams *types.GitHubSourceParams
-	knSourceClient     sourcetypes.KnSourceClient
+type ghSourceClient struct {
+	namespace      string
+	ghSourceParams *types.GHSourceParams
+	knSourceClient sourcetypes.KnSourceClient
 }
 
-func NewGitHubSourceClient(gitHubSourceParams *types.GitHubSourceParams, namespace string) types.GitHubSourceClient {
-	return &gitHubSourceClient{
-		namespace:          namespace,
-		gitHubSourceParams: gitHubSourceParams,
-		knSourceClient:     sourceclient.NewKnSourceClient(gitHubSourceParams.KnSourceParams, namespace),
+func NewGHSourceClient(ghSourceParams *types.GHSourceParams, namespace string) types.GHSourceClient {
+	return &ghSourceClient{
+		namespace:      namespace,
+		ghSourceParams: ghSourceParams,
+		knSourceClient: sourceclient.NewKnSourceClient(ghSourceParams.KnSourceParams, namespace),
 	}
 }
 
-func (client *gitHubSourceClient) Namespace() string {
+func (client *ghSourceClient) Namespace() string {
 	return client.knSourceClient.Namespace()
 }
 
-func (client *gitHubSourceClient) KnSourceClient() sourcetypes.KnSourceClient {
+func (client *ghSourceClient) KnSourceClient() sourcetypes.KnSourceClient {
 	return client
 }
 
-func (client *gitHubSourceClient) KnSourceParams() *sourcetypes.KnSourceParams {
-	return client.GitHubSourceParams().KnSourceParams
+func (client *ghSourceClient) KnSourceParams() *sourcetypes.KnSourceParams {
+	return client.GHSourceParams().KnSourceParams
 }
 
-func (client *gitHubSourceClient) GitHubSourceParams() *types.GitHubSourceParams {
-	return client.gitHubSourceParams
+func (client *ghSourceClient) GHSourceParams() *types.GHSourceParams {
+	return client.ghSourceParams
 }

@@ -23,13 +23,13 @@ import (
 )
 
 func main() {
-	gitHubSourceFactory := factories.NewGitHubSourceFactory()
+	ghSourceFactory := factories.NewGHSourceFactory()
 
-	gitHubCommandFactory := factories.NewGitHubSourceCommandFactory(gitHubSourceFactory)
-	gitHubFlagsFactory := factories.NewGitHubSourceFlagsFactory(gitHubSourceFactory)
-	gitHubRunEFactory := factories.NewGitHubSourceRunEFactory(gitHubSourceFactory)
+	ghCommandFactory := factories.NewGHSourceCommandFactory(ghSourceFactory)
+	ghFlagsFactory := factories.NewGHSourceFlagsFactory(ghSourceFactory)
+	ghRunEFactory := factories.NewGHSourceRunEFactory(ghSourceFactory)
 
-	err := core.NewKnSourceCommand(gitHubSourceFactory, gitHubCommandFactory, gitHubFlagsFactory, gitHubRunEFactory).Execute()
+	err := core.NewKnSourceCommand(ghSourceFactory, ghCommandFactory, ghFlagsFactory, ghRunEFactory).Execute()
 	if err != nil {
 		if err.Error() != "subcommand is required" {
 			fmt.Fprintln(os.Stderr, err)
