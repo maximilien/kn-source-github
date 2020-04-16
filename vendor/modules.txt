@@ -86,6 +86,9 @@ github.com/maximilien/kn-source-pkg/pkg/commands/source
 github.com/maximilien/kn-source-pkg/pkg/core
 github.com/maximilien/kn-source-pkg/pkg/factories
 github.com/maximilien/kn-source-pkg/pkg/types
+github.com/maximilien/kn-source-pkg/test/e2e
+# github.com/mitchellh/go-homedir v1.1.0
+github.com/mitchellh/go-homedir
 # github.com/mitchellh/mapstructure v1.1.2
 github.com/mitchellh/mapstructure
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
@@ -453,6 +456,7 @@ k8s.io/utils/buffer
 k8s.io/utils/integer
 k8s.io/utils/trace
 # knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2
+knative.dev/client/lib/test
 knative.dev/client/pkg/dynamic
 knative.dev/client/pkg/errors
 knative.dev/client/pkg/eventing/v1alpha1

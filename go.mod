@@ -7,5 +7,6 @@ require (
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	gotest.tools v2.2.0+incompatible
+	knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2
 	knative.dev/test-infra v0.0.0-20200413202711-9cf64fb1b912
 )

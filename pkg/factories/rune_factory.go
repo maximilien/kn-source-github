@@ -42,7 +42,7 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
 		return nil
 	}
 }
@@ -55,7 +55,7 @@ func (f *ghRunEFactory) DeleteRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
 		return nil
 	}
 }
@@ -68,7 +68,7 @@ func (f *ghRunEFactory) UpdateRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
 		return nil
 	}
 }
@@ -81,7 +81,7 @@ func (f *ghRunEFactory) DescribeRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v\n", cmd.Name(), args, ghSourceClient)
+		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
 		return nil
 	}
 }
