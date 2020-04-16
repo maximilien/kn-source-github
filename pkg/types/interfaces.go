@@ -20,6 +20,7 @@ import (
 
 type GHSourceClient interface {
 	sourcetypes.KnSourceClient
+	GHSourceParams() *GHSourceParams
 }
 
 type GHSourceFactory interface {

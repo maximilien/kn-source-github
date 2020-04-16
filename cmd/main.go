@@ -25,9 +25,9 @@ import (
 func main() {
 	ghSourceFactory := factories.NewGHSourceFactory()
 
-	ghCommandFactory := factories.NewGHSourceCommandFactory(ghSourceFactory)
-	ghFlagsFactory := factories.NewGHSourceFlagsFactory(ghSourceFactory)
-	ghRunEFactory := factories.NewGHSourceRunEFactory(ghSourceFactory)
+	ghCommandFactory := factories.NewGHCommandFactory(ghSourceFactory)
+	ghFlagsFactory := factories.NewGHFlagsFactory(ghSourceFactory)
+	ghRunEFactory := factories.NewGHRunEFactory(ghSourceFactory)
 
 	err := core.NewKnSourceCommand(ghSourceFactory, ghCommandFactory, ghFlagsFactory, ghRunEFactory).Execute()
 	if err != nil {

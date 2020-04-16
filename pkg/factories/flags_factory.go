@@ -28,7 +28,7 @@ type ghSourceFlagsFactory struct {
 	ghSourceFactory     types.GHSourceFactory
 }
 
-func NewGHSourceFlagsFactory(ghSourceFactory types.GHSourceFactory) types.GHFlagsFactory {
+func NewGHFlagsFactory(ghSourceFactory types.GHSourceFactory) types.GHFlagsFactory {
 	return &ghSourceFlagsFactory{
 		defaultFlagsFactory: sourcefactories.NewDefaultFlagsFactory(ghSourceFactory),
 		ghSourceFactory:     ghSourceFactory,

@@ -28,7 +28,7 @@ type ghRunEFactory struct {
 	ghSourceFactory types.GHSourceFactory
 }
 
-func NewGHSourceRunEFactory(ghSourceFactory types.GHSourceFactory) types.GHRunEFactory {
+func NewGHRunEFactory(ghSourceFactory types.GHSourceFactory) types.GHRunEFactory {
 	return &ghRunEFactory{
 		ghSourceFactory: ghSourceFactory,
 	}
