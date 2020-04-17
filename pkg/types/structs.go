@@ -21,5 +21,9 @@ import (
 type GHSourceParams struct {
 	KnSourceParams *sourcetypes.KnSourceParams
 
-	//TODO: add GitHub source specific params fields
+	Org  string
+	Repo string
+
+	SecretToken string
+	AccessToken string
 }
