@@ -15,8 +15,10 @@
 package factories
 
 import (
+	"errors"
 	"fmt"
 
+	"github.com/maximilien/kn-source-github/pkg/client"
 	"github.com/maximilien/kn-source-github/pkg/types"
 
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
@@ -42,7 +44,36 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
+
+		if len(args) != 1 {
+			return errors.New("requires the NAME of the source to create as single argument")
+		}
+
+		name := args[0]
+
+		dynamicClient, err := f.KnSourceParams().KnParams.NewDynamicClient(namespace)
+		if err != nil {
+			return err
+		}
+
+		objectRef, err := f.KnSourceParams().SinkFlag.ResolveSink(dynamicClient, namespace)
+		if err != nil {
+			return fmt.Errorf("cannot create GitHub '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		}
+
+		builder := client.NewGitHubSourceBuilder(name).
+			Sink(objectRef)
+
+		err = ghSourceClient.InitGHSource(builder.Build())
+		if err != nil {
+			return fmt.Errorf(
+				"cannot create GitHub source '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		} else {
+			fmt.Fprintf(cmd.OutOrStdout(), "GitHub source '%s' created in namespace '%s'.\n", name, namespace)
+		}
+
 		return nil
 	}
 }

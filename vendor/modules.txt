@@ -498,6 +498,10 @@ knative.dev/eventing/pkg/client/clientset/versioned/typed/eventing/v1alpha1/fake
 knative.dev/eventing/pkg/client/clientset/versioned/typed/sources/v1alpha2
 knative.dev/eventing/pkg/client/clientset/versioned/typed/sources/v1alpha2/fake
 knative.dev/eventing/pkg/logging
+# knative.dev/eventing-contrib v0.14.0
+knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1
+knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/scheme
+knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1
 # knative.dev/pkg v0.0.0-20200404181734-92cdec5b3593
 knative.dev/pkg/apis
 knative.dev/pkg/apis/duck
@@ -514,6 +518,7 @@ knative.dev/pkg/logging/logkey
 knative.dev/pkg/profiling
 knative.dev/pkg/ptr
 knative.dev/pkg/tracker
+knative.dev/pkg/webhook/resourcesemantics
 # knative.dev/serving v0.13.1-0.20200403170819-0e8f7a9e34f0
 knative.dev/serving/pkg/apis/autoscaling
 knative.dev/serving/pkg/apis/autoscaling/v1alpha1

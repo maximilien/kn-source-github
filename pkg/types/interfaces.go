@@ -16,11 +16,15 @@ package types
 
 import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
+
+	v1alpha1 "knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
 )
 
 type GHSourceClient interface {
 	sourcetypes.KnSourceClient
 	GHSourceParams() *GHSourceParams
+
+	InitGHSource(ghSource *v1alpha1.GitHubSource) error
 }
 
 type GHSourceFactory interface {

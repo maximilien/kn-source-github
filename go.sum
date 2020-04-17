@@ -590,6 +590,8 @@ knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2 h1:fr3KOo5KOM4PMc7DovHr
 knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2/go.mod h1:FaXTcYIZbzoA6yfisrN0c8GLleqk6+D9jmYcHTgvf8M=
 knative.dev/eventing v0.13.5 h1:+iihvTcV2QH0Mgu237fG/z0GptDxQxbXOAtcKveJBjI=
 knative.dev/eventing v0.13.5/go.mod h1:UxweNv8yXhsdHJitcb9R6rmfNaUD2DFi9GWwNRyIs58=
+knative.dev/eventing-contrib v0.14.0 h1:KrDufWSbngkPI7436JqKbd/FPU1XmzZnsy4SWXb5UCY=
+knative.dev/eventing-contrib v0.14.0/go.mod h1:SnXZgSGgMSMLNFTwTnpaOH7hXDzTFtw0J8OmHflNx3g=
 knative.dev/pkg v0.0.0-20200404181734-92cdec5b3593 h1:ubDiFWWncTD4TkA3hDH/JgGOYJlp3qyUjXf2rEIRLiM=
 knative.dev/pkg v0.0.0-20200404181734-92cdec5b3593/go.mod h1:pgODObA1dTyhNoFxPZTTjNWfx6F0aKsKzn+vaT9XO/Q=
 knative.dev/serving v0.13.1-0.20200403170819-0e8f7a9e34f0 h1:Vg92uLJq34mq7DDO1CnTNbjb40Ktk4UDgexICYDWvek=
