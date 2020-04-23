@@ -65,7 +65,7 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 		builder := client.NewGitHubSourceBuilder(name).
 			Sink(objectRef)
 
-		err = ghSourceClient.InitGHSource(builder.Build())
+		_, err = ghSourceClient.CreateGHSource(builder.Build())
 		if err != nil {
 			return fmt.Errorf(
 				"cannot create GitHub source '%s' in namespace '%s' because: %s",
@@ -86,7 +86,22 @@ func (f *ghRunEFactory) DeleteRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
+
+		if len(args) != 1 {
+			return errors.New("requires the NAME of the source to delete as single argument")
+		}
+
+		name := args[0]
+
+		err = ghSourceClient.DeleteGHSource(name)
+		if err != nil {
+			return fmt.Errorf(
+				"cannot delete GitHub source '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		} else {
+			fmt.Fprintf(cmd.OutOrStdout(), "GitHub source '%s' deleted in namespace '%s'.\n", name, namespace)
+		}
+
 		return nil
 	}
 }

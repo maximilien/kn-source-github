@@ -24,7 +24,8 @@ type GHSourceClient interface {
 	sourcetypes.KnSourceClient
 	GHSourceParams() *GHSourceParams
 
-	InitGHSource(ghSource *v1alpha1.GitHubSource) error
+	CreateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error)
+	DeleteGHSource(name string) error
 }
 
 type GHSourceFactory interface {

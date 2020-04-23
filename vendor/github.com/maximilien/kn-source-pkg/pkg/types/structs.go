@@ -27,6 +27,9 @@ type KnSourceParams struct {
 }
 
 func (p *KnSourceParams) AddCommonFlags(cmd *cobra.Command) {
-	p.SinkFlag.Add(cmd)
 	commands.AddNamespaceFlags(cmd.Flags(), true)
+}
+
+func (p *KnSourceParams) AddCreateUpdateFlags(cmd *cobra.Command) {
+	p.SinkFlag.Add(cmd)
 }
