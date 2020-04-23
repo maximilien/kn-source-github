@@ -37,10 +37,10 @@ func NewGHFlagsFactory(ghSourceFactory types.GHSourceFactory) types.GHFlagsFacto
 
 func (f *ghSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.CreateFlags()
-	flagSet.StringVar(&f.GHSourceParams().Org, "org", "", "GitHub organization or username")
+	flagSet.StringVar(&f.GHSourceParams().Org, "org", "", "The GitHub organization or username")
 	flagSet.StringVar(&f.GHSourceParams().Repo, "repo", "", "Repository name to consume messages from")
-	flagSet.StringVar(&f.GHSourceParams().SecretToken, "secret-token", "", "the GitHub secret-token to use")
-	flagSet.StringVar(&f.GHSourceParams().AccessToken, "access-token", "", "the GitHub access-token to use")
+	flagSet.StringVar(&f.GHSourceParams().SecretToken, "secret-token", "", "The GitHub secret-token to use")
+	flagSet.StringVar(&f.GHSourceParams().AccessToken, "access-token", "", "The GitHub access-token to use")
 	return flagSet
 }
 

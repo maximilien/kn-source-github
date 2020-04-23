@@ -47,8 +47,11 @@ func (f *ghSourceCommandFactory) CreateCommand() *cobra.Command {
 	createCmd := f.defaultCommandFactory.CreateCommand()
 	createCmd.Short = "create NAME"
 	createCmd.Long = "create a GitHub source"
-	createCmd.Example = `# Creates a new GitHub source with NAME
-kn source github create github-name`
+	createCmd.Example = `# Creates a new GitHub source with NAME using credentials
+kn source github create NAME  --access-token $MY_ACCESS_TOKEN --secret-token $MY_SECRET_TOKEN
+
+# Creates a new GitHub source with NAME with specified organization and repository using credentials
+kn source github create NAME --org knative --repo client-contrib --access-token $MY_ACCESS_TOKEN --secret-token $MY_SECRET_TOKEN`
 	return createCmd
 }
 
@@ -57,7 +60,7 @@ func (f *ghSourceCommandFactory) DeleteCommand() *cobra.Command {
 	deleteCmd.Short = "delete NAME"
 	deleteCmd.Long = "delete a GitHub source"
 	deleteCmd.Example = `# Deletes a GitHub source with NAME
-kn source github delete github-name`
+kn source github delete NAME`
 	return deleteCmd
 }
 
@@ -66,7 +69,7 @@ func (f *ghSourceCommandFactory) UpdateCommand() *cobra.Command {
 	updateCmd.Short = "update NAME"
 	updateCmd.Long = "update a GitHub source"
 	updateCmd.Example = `# Updates a GitHub source with NAME
-kn source github update github-name`
+kn source github update NAME`
 	return updateCmd
 }
 
@@ -75,6 +78,6 @@ func (f *ghSourceCommandFactory) DescribeCommand() *cobra.Command {
 	describeCmd.Short = "describe NAME"
 	describeCmd.Long = "update a GitHub source"
 	describeCmd.Example = `# Describes a GitHub source with NAME
-kn source github describe github-name`
+kn source github describe NAME`
 	return describeCmd
 }
