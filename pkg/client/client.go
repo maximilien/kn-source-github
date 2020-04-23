@@ -24,6 +24,8 @@ import (
 
 	knerrors "knative.dev/client/pkg/errors"
 
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
 	v1alpha1 "knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
 	clientv1alpha1 "knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1"
 )
@@ -69,9 +71,19 @@ func (client *ghSourceClient) GHSourceParams() *types.GHSourceParams {
 	return client.ghSourceParams
 }
 
-// InitGHSource is used to create and initialize an instance of ApiServerSource
-func (client *ghSourceClient) InitGHSource(ghSource *v1alpha1.GitHubSource) error {
-	_, err := client.sourcesClient.GitHubSources(client.namespace).Create(ghSource)
+// CreateGHSource is used to create and initialize an an GHSource
+func (client *ghSourceClient) CreateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error) {
+	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Create(ghSource)
+	if err != nil {
+		return nil, knerrors.GetError(err)
+	}
+
+	return ghSource, nil
+}
+
+// DeleteGHSource is used to delete an GHSource
+func (client *ghSourceClient) DeleteGHSource(name string) error {
+	err := client.sourcesClient.GitHubSources(client.namespace).Delete(name, &v1.DeleteOptions{})
 	if err != nil {
 		return knerrors.GetError(err)
 	}
