@@ -24,6 +24,7 @@ type GHSourceParams struct {
 	Org  string
 	Repo string
 
+	APIURL      string
 	SecretToken string
 	AccessToken string
 }

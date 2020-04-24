@@ -15,8 +15,11 @@
 package client
 
 import (
+	"fmt"
+
 	v1alpha1 "knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
 
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 )
@@ -37,28 +40,42 @@ func NewGitHubSourceBuilder(name string) *GitHubSourceBuilder {
 	}
 }
 
-// // BootstrapServers to set the value of BootstrapServers
-// func (b *GitHubSourceBuilder) BootstrapServers(server string) *GitHubSourceBuilder {
-// 	b.ghSource.Spec.BootstrapServers = server
-// 	return b
-// }
+// OrgRepo sets the org/owner and repository
+func (b *GitHubSourceBuilder) OrgRepo(org, repo string) *GitHubSourceBuilder {
+	b.ghSource.Spec.OwnerAndRepository = fmt.Sprintf("%s/%s", org, repo)
+	return b
+}
 
-// // Topics to set the value of Topics
-// func (b *GitHubSourceBuilder) Topics(topics string) *GitHubSourceBuilder {
-// 	b.ghSource.Spec.Topics = topics
-// 	return b
-// }
+// APIURL to set the value of the GitHub APIURL
+func (b *GitHubSourceBuilder) APIURL(apiURL string) *GitHubSourceBuilder {
+	b.ghSource.Spec.GitHubAPIURL = apiURL
+	return b
+}
 
-// // ConsumerGroup to set the value of ConsumerGroup
-// func (b *GitHubSourceBuilder) ConsumerGroup(consumerGroup string) *GitHubSourceBuilder {
-// 	b.ghSource.Spec.ConsumerGroup = consumerGroup
-// 	return b
-// }
+// AccessToken the access-token to use for this GitHub source
+func (b *GitHubSourceBuilder) AccessToken(accessToken string) *GitHubSourceBuilder {
+	b.ghSource.Spec.AccessToken = v1alpha1.SecretValueFromSource{
+		SecretKeyRef: &corev1.SecretKeySelector{
+			Key: accessToken,
+		},
+	}
+	return b
+}
+
+// SecretToken the secret-token to use for this GitHub source
+func (b *GitHubSourceBuilder) SecretToken(secretToken string) *GitHubSourceBuilder {
+	b.ghSource.Spec.SecretToken = v1alpha1.SecretValueFromSource{
+		SecretKeyRef: &corev1.SecretKeySelector{
+			Key: secretToken,
+		},
+	}
+	return b
+}
 
 // Sink or destination of the source
-func (builder *GitHubSourceBuilder) Sink(sink *duckv1.Destination) *GitHubSourceBuilder {
-	builder.ghSource.Spec.Sink = sink
-	return builder
+func (b *GitHubSourceBuilder) Sink(sink *duckv1.Destination) *GitHubSourceBuilder {
+	b.ghSource.Spec.Sink = sink
+	return b
 }
 
 // Build the GitHubSource object

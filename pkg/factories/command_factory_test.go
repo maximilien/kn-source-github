@@ -46,8 +46,11 @@ func TestCreateCommand(t *testing.T) {
 
 	assert.Equal(t, createCmd.Short, "create NAME")
 	assert.Equal(t, createCmd.Long, "create a GitHub source")
-	assert.Equal(t, createCmd.Example, `# Creates a new GitHub source with NAME
-kn source github create github-name`)
+	assert.Equal(t, createCmd.Example, `# Creates a new GitHub source with NAME using credentials
+kn source github create NAME  --access-token $MY_ACCESS_TOKEN --secret-token $MY_SECRET_TOKEN
+
+# Creates a new GitHub source with NAME with specified organization and repository using credentials
+kn source github create NAME --org knative --repo client-contrib --access-token $MY_ACCESS_TOKEN --secret-token $MY_SECRET_TOKEN`)
 }
 
 func TestDeleteCommand(t *testing.T) {
@@ -59,7 +62,7 @@ func TestDeleteCommand(t *testing.T) {
 	assert.Equal(t, deleteCmd.Short, "delete NAME")
 	assert.Equal(t, deleteCmd.Long, "delete a GitHub source")
 	assert.Equal(t, deleteCmd.Example, `# Deletes a GitHub source with NAME
-kn source github delete github-name`)
+kn source github delete NAME`)
 }
 
 func TestUpdateCommand(t *testing.T) {
@@ -71,7 +74,7 @@ func TestUpdateCommand(t *testing.T) {
 	assert.Equal(t, updateCmd.Short, "update NAME")
 	assert.Equal(t, updateCmd.Long, "update a GitHub source")
 	assert.Equal(t, updateCmd.Example, `# Updates a GitHub source with NAME
-kn source github update github-name`)
+kn source github update NAME`)
 }
 
 func TestDescribeCommand(t *testing.T) {
@@ -83,5 +86,5 @@ func TestDescribeCommand(t *testing.T) {
 	assert.Equal(t, describeCmd.Short, "describe NAME")
 	assert.Equal(t, describeCmd.Long, "update a GitHub source")
 	assert.Equal(t, describeCmd.Example, `# Describes a GitHub source with NAME
-kn source github describe github-name`)
+kn source github describe NAME`)
 }

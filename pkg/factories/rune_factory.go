@@ -58,11 +58,15 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 
 		objectRef, err := f.KnSourceParams().SinkFlag.ResolveSink(dynamicClient, namespace)
 		if err != nil {
-			return fmt.Errorf("cannot create GitHub '%s' in namespace '%s' because: %s",
+			return fmt.Errorf("cannot create GitHub source '%s' in namespace '%s' because: %s",
 				name, namespace, err.Error())
 		}
 
 		builder := client.NewGitHubSourceBuilder(name).
+			OrgRepo(ghSourceClient.GHSourceParams().Org, ghSourceClient.GHSourceParams().Repo).
+			APIURL(ghSourceClient.GHSourceParams().APIURL).
+			AccessToken(ghSourceClient.GHSourceParams().AccessToken).
+			SecretToken(ghSourceClient.GHSourceParams().SecretToken).
 			Sink(objectRef)
 
 		_, err = ghSourceClient.CreateGHSource(builder.Build())
