@@ -85,6 +85,7 @@ run() {
   # Default flow
   codegen
   go_build
+  generate_docs
   go_test
   go_e2e
 
@@ -211,6 +212,13 @@ update_deps() {
   echo "🚒 Update"
   go mod tidy
   go mod vendor
+}
+
+generate_docs() {
+  echo "📖 Docs"
+  rm -rf "./docs/cmd"
+  mkdir -p "./docs/cmd"
+  go run "./hack/generate_docs.go" "."
 }
 
 watch() {
