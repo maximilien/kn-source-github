@@ -23,19 +23,19 @@ import (
 	"github.com/spf13/pflag"
 )
 
-type ghSourceFlagsFactory struct {
+type ghFlagsFactory struct {
 	defaultFlagsFactory sourcetypes.FlagsFactory
 	ghSourceFactory     types.GHSourceFactory
 }
 
 func NewGHFlagsFactory(ghSourceFactory types.GHSourceFactory) types.GHFlagsFactory {
-	return &ghSourceFlagsFactory{
+	return &ghFlagsFactory{
 		defaultFlagsFactory: sourcefactories.NewDefaultFlagsFactory(ghSourceFactory),
 		ghSourceFactory:     ghSourceFactory,
 	}
 }
 
-func (f *ghSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
+func (f *ghFlagsFactory) CreateFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.CreateFlags()
 	flagSet.StringVar(&f.GHSourceParams().Org, "org", "", "The GitHub organization or username")
 	flagSet.StringVar(&f.GHSourceParams().Repo, "repo", "", "Repository name to consume messages from")
@@ -45,19 +45,19 @@ func (f *ghSourceFlagsFactory) CreateFlags() *pflag.FlagSet {
 	return flagSet
 }
 
-func (f *ghSourceFlagsFactory) DeleteFlags() *pflag.FlagSet {
+func (f *ghFlagsFactory) DeleteFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.DeleteFlags()
 	//TODO: add GitHub source flags
 	return flagSet
 }
 
-func (f *ghSourceFlagsFactory) UpdateFlags() *pflag.FlagSet {
+func (f *ghFlagsFactory) UpdateFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.UpdateFlags()
 	//TODO: add GitHub source flags
 	return flagSet
 }
 
-func (f *ghSourceFlagsFactory) DescribeFlags() *pflag.FlagSet {
+func (f *ghFlagsFactory) DescribeFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.DescribeFlags()
 	//TODO: add GitHub source flags
 	return flagSet

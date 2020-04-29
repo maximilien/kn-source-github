@@ -42,37 +42,37 @@ func (f *ghSourceFactory) GHSourceClient() types.GHSourceClient {
 
 // CommandFactory
 
-func (f *ghSourceCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+func (f *ghCommandFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
 	return f.ghSourceFactory
 }
 
-func (f *ghSourceCommandFactory) GHSourceFactory() types.GHSourceFactory {
+func (f *ghCommandFactory) GHSourceFactory() types.GHSourceFactory {
 	return f.ghSourceFactory
 }
 
-func (f *ghSourceCommandFactory) GHSourceParams() *types.GHSourceParams {
+func (f *ghCommandFactory) GHSourceParams() *types.GHSourceParams {
 	return f.ghSourceFactory.GHSourceParams()
 }
 
-func (f *ghSourceCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+func (f *ghCommandFactory) KnSourceParams() *sourcetypes.KnSourceParams {
 	return f.ghSourceFactory.KnSourceParams()
 }
 
 // FlagsFactory
 
-func (f *ghSourceFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
+func (f *ghFlagsFactory) KnSourceFactory() sourcetypes.KnSourceFactory {
 	return f.ghSourceFactory
 }
 
-func (f *ghSourceFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
+func (f *ghFlagsFactory) KnSourceParams() *sourcetypes.KnSourceParams {
 	return f.ghSourceFactory.KnSourceParams()
 }
 
-func (f *ghSourceFlagsFactory) GHSourceParams() *types.GHSourceParams {
+func (f *ghFlagsFactory) GHSourceParams() *types.GHSourceParams {
 	return f.ghSourceFactory.GHSourceParams()
 }
 
-func (f *ghSourceFlagsFactory) GHSourceFactory() types.GHSourceFactory {
+func (f *ghFlagsFactory) GHSourceFactory() types.GHSourceFactory {
 	return f.ghSourceFactory
 }
 
