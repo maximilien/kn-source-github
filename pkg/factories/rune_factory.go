@@ -92,7 +92,7 @@ func (f *ghRunEFactory) DeleteRunE() sourcetypes.RunE {
 		ghSourceClient := f.GHSourceClient(namespace)
 
 		if len(args) != 1 {
-			return errors.New("requires the NAME of the source to delete as single argument")
+			return errors.New("requires the NAME of the source to `delete` as single argument")
 		}
 
 		name := args[0]
@@ -118,7 +118,40 @@ func (f *ghRunEFactory) UpdateRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
+
+		if len(args) != 1 {
+			return errors.New("requires the NAME of the source to update as single argument")
+		}
+
+		name := args[0]
+
+		dynamicClient, err := f.KnSourceParams().KnParams.NewDynamicClient(namespace)
+		if err != nil {
+			return err
+		}
+
+		objectRef, err := f.KnSourceParams().SinkFlag.ResolveSink(dynamicClient, namespace)
+		if err != nil {
+			return fmt.Errorf("cannot update GitHub source '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		}
+
+		builder := client.NewGitHubSourceBuilder(name).
+			OrgRepo(ghSourceClient.GHSourceParams().Org, ghSourceClient.GHSourceParams().Repo).
+			APIURL(ghSourceClient.GHSourceParams().APIURL).
+			AccessToken(ghSourceClient.GHSourceParams().AccessToken).
+			SecretToken(ghSourceClient.GHSourceParams().SecretToken).
+			Sink(objectRef)
+
+		_, err = ghSourceClient.UpdateGHSource(builder.Build())
+		if err != nil {
+			return fmt.Errorf(
+				"cannot update GitHub source '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		} else {
+			fmt.Fprintf(cmd.OutOrStdout(), "GitHub source '%s' updated in namespace '%s'.\n", name, namespace)
+		}
+
 		return nil
 	}
 }
@@ -131,7 +164,29 @@ func (f *ghRunEFactory) DescribeRunE() sourcetypes.RunE {
 		}
 
 		ghSourceClient := f.GHSourceClient(namespace)
-		fmt.Printf("%s RunE function called for GitHub source: args: %#v, client: %#v, sink: %s\n", cmd.Name(), args, ghSourceClient, ghSourceClient.KnSourceParams().SinkFlag)
+
+		if len(args) != 1 {
+			return errors.New("requires the NAME of the source to `describe` as single argument")
+		}
+
+		name := args[0]
+
+		ghSource, err := ghSourceClient.GetGHSource(name)
+		if err != nil {
+			return fmt.Errorf(
+				"cannot describe GitHub source '%s' in namespace '%s' because: %s",
+				name, namespace, err.Error())
+		} else {
+			fmt.Fprintf(cmd.OutOrStdout(), "GitHub source '%s' in namespace '%s'.\n", name, namespace)
+			fmt.Fprintf(cmd.OutOrStdout(), "  service account name: %s", ghSource.Spec.ServiceAccountName)
+			fmt.Fprintf(cmd.OutOrStdout(), "  owner and repository: %s\n", ghSource.Spec.OwnerAndRepository)
+			fmt.Fprintf(cmd.OutOrStdout(), "  event types list    : %s\n", ghSource.Spec.EventTypes)
+			fmt.Fprintf(cmd.OutOrStdout(), "  access token        : %s\n", ghSource.Spec.AccessToken)
+			fmt.Fprintf(cmd.OutOrStdout(), "  secret token        : %s\n", ghSource.Spec.SecretToken)
+			fmt.Fprintf(cmd.OutOrStdout(), "  GitHub API URL      : %s\n", ghSource.Spec.GitHubAPIURL)
+			fmt.Fprintf(cmd.OutOrStdout(), "  secure              : %b\n", ghSource.Spec.Secure)
+		}
+
 		return nil
 	}
 }

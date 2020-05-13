@@ -47,18 +47,20 @@ func (f *ghFlagsFactory) CreateFlags() *pflag.FlagSet {
 
 func (f *ghFlagsFactory) DeleteFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.DeleteFlags()
-	//TODO: add GitHub source flags
 	return flagSet
 }
 
 func (f *ghFlagsFactory) UpdateFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.UpdateFlags()
-	//TODO: add GitHub source flags
+	flagSet.StringVar(&f.GHSourceParams().Org, "org", "", "The GitHub organization or username")
+	flagSet.StringVar(&f.GHSourceParams().Repo, "repo", "", "Repository name to consume messages from")
+	flagSet.StringVar(&f.GHSourceParams().APIURL, "api-url", "https://api.github.com", "The GitHub API URL to use")
+	flagSet.StringVar(&f.GHSourceParams().SecretToken, "secret-token", "", "The GitHub secret-token to use")
+	flagSet.StringVar(&f.GHSourceParams().AccessToken, "access-token", "", "The GitHub access-token to use")
 	return flagSet
 }
 
 func (f *ghFlagsFactory) DescribeFlags() *pflag.FlagSet {
 	flagSet := f.defaultFlagsFactory.DescribeFlags()
-	//TODO: add GitHub source flags
 	return flagSet
 }

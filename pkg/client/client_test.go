@@ -28,6 +28,10 @@ func _TestNewGHSourceClient(t *testing.T) {
 	assert.Assert(t, ghSourceClient != nil)
 }
 
+func TestKnSourceParams(t *testing.T) {
+	//TODO add test here
+}
+
 // TODO: fix this
 func _TestGHSourceParams(t *testing.T) {
 	fakeGHSourceParams := &types.GHSourceParams{}
@@ -39,4 +43,20 @@ func _TestGHSourceParams(t *testing.T) {
 func _TestNamespace(t *testing.T) {
 	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
 	assert.Equal(t, ghSourceClient.Namespace(), "fake-namespace")
+}
+
+func TestGetGHSource(t *testing.T) {
+	//TODO add test here
+}
+
+func TestCreateGHSource(t *testing.T) {
+	//TODO add test here
+}
+
+func TestUpdateGHSource(t *testing.T) {
+	//TODO add test here
+}
+
+func TestDeleteGHSource(t *testing.T) {
+	//TODO add test here
 }

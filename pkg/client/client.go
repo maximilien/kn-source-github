@@ -71,13 +71,30 @@ func (client *ghSourceClient) GHSourceParams() *types.GHSourceParams {
 	return client.ghSourceParams
 }
 
-// CreateGHSource is used to create and initialize an an GHSource
+// GetGHSource is used to create and initialize an GHSource
+func (client *ghSourceClient) GetGHSource(name string) (*v1alpha1.GitHubSource, error) {
+	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Get(name, v1.GetOptions{})
+	if err != nil {
+		return nil, knerrors.GetError(err)
+	}
+	return ghSource, nil
+}
+
+// CreateGHSource is used to create and initialize an GHSource
 func (client *ghSourceClient) CreateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error) {
 	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Create(ghSource)
 	if err != nil {
 		return nil, knerrors.GetError(err)
 	}
+	return ghSource, nil
+}
 
+// UpdateGHSource is used to update a GHSource
+func (client *ghSourceClient) UpdateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error) {
+	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Update(ghSource)
+	if err != nil {
+		return nil, knerrors.GetError(err)
+	}
 	return ghSource, nil
 }
 

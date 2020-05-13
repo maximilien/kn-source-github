@@ -24,7 +24,6 @@ import (
 
 func TestNewGHRunEFactory(t *testing.T) {
 	runEFactory := createGHRunEFactory()
-
 	assert.Assert(t, runEFactory != nil)
 }
 
@@ -33,6 +32,8 @@ func TestCreateRunE(t *testing.T) {
 
 	createRunE := runEFactory.CreateRunE()
 	assert.Assert(t, createRunE != nil)
+
+	//TODO implement me
 }
 
 func TestDeleteRunE(t *testing.T) {
@@ -40,6 +41,8 @@ func TestDeleteRunE(t *testing.T) {
 
 	deleteRunE := runEFactory.DeleteRunE()
 	assert.Assert(t, deleteRunE != nil)
+
+	//TODO implement me
 }
 
 func TestUpdateRunE(t *testing.T) {
@@ -47,6 +50,8 @@ func TestUpdateRunE(t *testing.T) {
 
 	updateRunE := runEFactory.UpdateRunE()
 	assert.Assert(t, updateRunE != nil)
+
+	//TODO implement me
 }
 
 func TestDescribeRunE(t *testing.T) {
@@ -54,6 +59,8 @@ func TestDescribeRunE(t *testing.T) {
 
 	describeRunE := runEFactory.DescribeRunE()
 	assert.Assert(t, describeRunE != nil)
+
+	//TODO implement me
 }
 
 // Private

@@ -149,10 +149,15 @@ kn source github update NAME
 #### Options
 
 ```
-  -A, --all-namespaces     If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
-  -h, --help               help for update
-  -n, --namespace string   Specify the namespace to operate in.
-  -s, --sink string        Addressable sink for events
+      --access-token string   The GitHub access-token to use
+  -A, --all-namespaces        If present, list the requested object(s) across all namespaces. Namespace in current context is ignored even if specified with --namespace.
+      --api-url string        The GitHub API URL to use (default "https://api.github.com")
+  -h, --help                  help for update
+  -n, --namespace string      Specify the namespace to operate in.
+      --org string            The GitHub organization or username
+      --repo string           Repository name to consume messages from
+      --secret-token string   The GitHub secret-token to use
+  -s, --sink string           Addressable sink for events
 ```
 
 #### SEE ALSO

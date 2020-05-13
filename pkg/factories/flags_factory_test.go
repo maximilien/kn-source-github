@@ -22,30 +22,30 @@ import (
 
 func TestNewGHFlagsFactory(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-
+	//TODO implement me
 	assert.Assert(t, flagsFactory != nil)
 }
 
 func TestCreateFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-
+	//TODO implement me
 	assert.Assert(t, flagsFactory.CreateFlags() != nil)
 }
 
 func TestDeleteFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-
+	//TODO implement me
 	assert.Assert(t, flagsFactory.DeleteFlags() != nil)
 }
 
 func TestUpdateFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-
+	//TODO implement me
 	assert.Assert(t, flagsFactory.UpdateFlags() != nil)
 }
 
 func TestDescribeFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-
+	//TODO implement me
 	assert.Assert(t, flagsFactory.DescribeFlags() != nil)
 }
