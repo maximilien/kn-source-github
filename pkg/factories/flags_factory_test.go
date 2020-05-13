@@ -18,34 +18,67 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
+
+	"github.com/spf13/pflag"
 )
 
 func TestNewGHFlagsFactory(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-	//TODO implement me
 	assert.Assert(t, flagsFactory != nil)
 }
 
 func TestCreateFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-	//TODO implement me
-	assert.Assert(t, flagsFactory.CreateFlags() != nil)
+
+	createFlags := flagsFactory.CreateFlags()
+	assert.Assert(t, createFlags != nil)
+
+	testCreateUpdateFlags(t, createFlags)
 }
 
 func TestDeleteFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-	//TODO implement me
-	assert.Assert(t, flagsFactory.DeleteFlags() != nil)
+
+	deleteFlags := flagsFactory.DescribeFlags()
+	assert.Assert(t, deleteFlags != nil)
 }
 
 func TestUpdateFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-	//TODO implement me
-	assert.Assert(t, flagsFactory.UpdateFlags() != nil)
+
+	updateFlags := flagsFactory.CreateFlags()
+	assert.Assert(t, updateFlags != nil)
+
+	testCreateUpdateFlags(t, updateFlags)
 }
 
 func TestDescribeFlags(t *testing.T) {
 	flagsFactory := NewGHFlagsFactory(NewGHSourceFactory())
-	//TODO implement me
-	assert.Assert(t, flagsFactory.DescribeFlags() != nil)
+
+	describeFlags := flagsFactory.DescribeFlags()
+	assert.Assert(t, describeFlags != nil)
+}
+
+// Private
+
+func testCreateUpdateFlags(t *testing.T, flagSet *pflag.FlagSet) {
+	orgFlag, err := flagSet.GetString("org")
+	assert.NilError(t, err)
+	assert.Assert(t, orgFlag == "")
+
+	repoFlag, err := flagSet.GetString("repo")
+	assert.NilError(t, err)
+	assert.Assert(t, repoFlag == "")
+
+	apiURLFlag, err := flagSet.GetString("api-url")
+	assert.NilError(t, err)
+	assert.Assert(t, apiURLFlag == "https://api.github.com")
+
+	secretTokenFlag, err := flagSet.GetString("secret-token")
+	assert.NilError(t, err)
+	assert.Assert(t, secretTokenFlag == "")
+
+	accessTokenFlag, err := flagSet.GetString("access-token")
+	assert.NilError(t, err)
+	assert.Assert(t, accessTokenFlag == "")
 }
