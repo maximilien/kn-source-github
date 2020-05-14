@@ -82,7 +82,7 @@ github.com/magiconair/properties
 github.com/mailru/easyjson/buffer
 github.com/mailru/easyjson/jlexer
 github.com/mailru/easyjson/jwriter
-# github.com/maximilien/kn-source-pkg v0.4.0
+# github.com/maximilien/kn-source-pkg v0.4.2
 github.com/maximilien/kn-source-pkg/pkg/client
 github.com/maximilien/kn-source-pkg/pkg/commands/source
 github.com/maximilien/kn-source-pkg/pkg/core
@@ -506,7 +506,7 @@ knative.dev/eventing/pkg/client/clientset/versioned/typed/eventing/v1alpha1/fake
 knative.dev/eventing/pkg/client/clientset/versioned/typed/sources/v1alpha2
 knative.dev/eventing/pkg/client/clientset/versioned/typed/sources/v1alpha2/fake
 knative.dev/eventing/pkg/logging
-# knative.dev/eventing-contrib v0.14.0
+# knative.dev/eventing-contrib v0.14.1
 knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1
 knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/scheme
 knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1

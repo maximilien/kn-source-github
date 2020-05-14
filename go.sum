@@ -247,8 +247,8 @@ github.com/mattn/go-runewidth v0.0.2/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzp
 github.com/matttproud/golang_protobuf_extensions v1.0.1 h1:4hp9jkHxhMHkqkrB3Ix0jegS5sx/RkqARlsWZ6pIwiU=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/maxbrunsfeld/counterfeiter/v6 v6.2.2/go.mod h1:eD9eIE7cdwcMi9rYluz88Jz2VyhSmden33/aXg4oVIY=
-github.com/maximilien/kn-source-pkg v0.4.0 h1:YmSHyu3dfQ3K736fn8J3dSCZRNkm2RJaC/DQ7QnIcsg=
-github.com/maximilien/kn-source-pkg v0.4.0/go.mod h1:EDa7rFyEq3i2X02NaP1/pnrg+yVUlWPOS4CCZaZwCx0=
+github.com/maximilien/kn-source-pkg v0.4.2 h1:PYousj6tX+JLcAfssTz4XZNxwaHNyLani3Z1ZhmB9Kg=
+github.com/maximilien/kn-source-pkg v0.4.2/go.mod h1:e7osu4ez5Jav8YtqLJJaFun0B38hdvg64Bf9MtBjXwg=
 github.com/mitchellh/go-homedir v1.1.0 h1:lukF9ziXFxDFPkA1vsr5zpc1XuPDn/wFntq5mG+4E0Y=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2 h1:fmNYVwqnSfB9mZU6OS2O6GsXM+wcskZDuKQzvN1EDeE=
@@ -595,8 +595,8 @@ knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2 h1:fr3KOo5KOM4PMc7DovHr
 knative.dev/client v0.13.1-0.20200406212659-8a60d2ebf8e2/go.mod h1:FaXTcYIZbzoA6yfisrN0c8GLleqk6+D9jmYcHTgvf8M=
 knative.dev/eventing v0.13.5 h1:+iihvTcV2QH0Mgu237fG/z0GptDxQxbXOAtcKveJBjI=
 knative.dev/eventing v0.13.5/go.mod h1:UxweNv8yXhsdHJitcb9R6rmfNaUD2DFi9GWwNRyIs58=
-knative.dev/eventing-contrib v0.14.0 h1:KrDufWSbngkPI7436JqKbd/FPU1XmzZnsy4SWXb5UCY=
-knative.dev/eventing-contrib v0.14.0/go.mod h1:SnXZgSGgMSMLNFTwTnpaOH7hXDzTFtw0J8OmHflNx3g=
+knative.dev/eventing-contrib v0.14.1 h1:lo3ejCNhV9YqByZwmi11JMYVEeTeczlvIKlM81JRLF8=
+knative.dev/eventing-contrib v0.14.1/go.mod h1:SnXZgSGgMSMLNFTwTnpaOH7hXDzTFtw0J8OmHflNx3g=
 knative.dev/pkg v0.0.0-20200404181734-92cdec5b3593 h1:ubDiFWWncTD4TkA3hDH/JgGOYJlp3qyUjXf2rEIRLiM=
 knative.dev/pkg v0.0.0-20200404181734-92cdec5b3593/go.mod h1:pgODObA1dTyhNoFxPZTTjNWfx6F0aKsKzn+vaT9XO/Q=
 knative.dev/serving v0.13.1-0.20200403170819-0e8f7a9e34f0 h1:Vg92uLJq34mq7DDO1CnTNbjb40Ktk4UDgexICYDWvek=

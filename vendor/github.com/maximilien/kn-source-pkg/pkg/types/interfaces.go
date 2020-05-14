@@ -17,6 +17,8 @@ package types
 import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
+
+	clientv1alpha1 "knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1"
 )
 
 type RunE = func(cmd *cobra.Command, args []string) error
@@ -24,6 +26,7 @@ type RunE = func(cmd *cobra.Command, args []string) error
 type KnSourceClient interface {
 	KnSourceParams() *KnSourceParams
 	Namespace() string
+	SourcesClient() clientv1alpha1.SourcesV1alpha1Interface
 }
 
 type KnSourceFactory interface {

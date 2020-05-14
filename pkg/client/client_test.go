@@ -22,12 +22,6 @@ import (
 	"github.com/maximilien/kn-source-github/pkg/types"
 )
 
-// TODO: fix this
-func _TestNewGHSourceClient(t *testing.T) {
-	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
-	assert.Assert(t, ghSourceClient != nil)
-}
-
 func TestKnSourceParams(t *testing.T) {
 	//TODO add test here
 }
@@ -43,6 +37,12 @@ func _TestGHSourceParams(t *testing.T) {
 func _TestNamespace(t *testing.T) {
 	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
 	assert.Equal(t, ghSourceClient.Namespace(), "fake-namespace")
+}
+
+// TODO: fix me
+func _TestSourcesClient(t *testing.T) {
+	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
+	assert.Assert(t, ghSourceClient.SourcesClient() != nil)
 }
 
 func TestGetGHSource(t *testing.T) {

@@ -15,8 +15,6 @@
 package client
 
 import (
-	"fmt"
-
 	"github.com/maximilien/kn-source-github/pkg/types"
 
 	sourceclient "github.com/maximilien/kn-source-pkg/pkg/client"
@@ -27,6 +25,7 @@ import (
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	v1alpha1 "knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
+
 	clientv1alpha1 "knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1"
 )
 
@@ -34,26 +33,24 @@ type ghSourceClient struct {
 	namespace      string
 	ghSourceParams *types.GHSourceParams
 	knSourceClient sourcetypes.KnSourceClient
-	sourcesClient  clientv1alpha1.SourcesV1alpha1Interface
 }
 
 func NewGHSourceClient(ghSourceParams *types.GHSourceParams, namespace string) types.GHSourceClient {
-	sourcesClient, err := newSourcesClient(ghSourceParams)
-	if err != nil {
-		panic(fmt.Sprintf("Could not create GitHub sources client, error: %s", err.Error()))
-	}
-
 	return &ghSourceClient{
 		namespace:      namespace,
 		ghSourceParams: ghSourceParams,
 		knSourceClient: sourceclient.NewKnSourceClient(ghSourceParams.KnSourceParams, namespace),
-		sourcesClient:  sourcesClient,
 	}
 }
 
 // Namespace for this client
 func (client *ghSourceClient) Namespace() string {
 	return client.knSourceClient.Namespace()
+}
+
+// SourcesClient the client to access the Knative sources
+func (client *ghSourceClient) SourcesClient() clientv1alpha1.SourcesV1alpha1Interface {
+	return client.knSourceClient.SourcesClient()
 }
 
 // KnSourceClient interface for this client
@@ -73,7 +70,7 @@ func (client *ghSourceClient) GHSourceParams() *types.GHSourceParams {
 
 // GetGHSource is used to create and initialize an GHSource
 func (client *ghSourceClient) GetGHSource(name string) (*v1alpha1.GitHubSource, error) {
-	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Get(name, v1.GetOptions{})
+	ghSource, err := client.SourcesClient().GitHubSources(client.namespace).Get(name, v1.GetOptions{})
 	if err != nil {
 		return nil, knerrors.GetError(err)
 	}
@@ -82,7 +79,7 @@ func (client *ghSourceClient) GetGHSource(name string) (*v1alpha1.GitHubSource, 
 
 // CreateGHSource is used to create and initialize an GHSource
 func (client *ghSourceClient) CreateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error) {
-	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Create(ghSource)
+	ghSource, err := client.SourcesClient().GitHubSources(client.namespace).Create(ghSource)
 	if err != nil {
 		return nil, knerrors.GetError(err)
 	}
@@ -91,7 +88,7 @@ func (client *ghSourceClient) CreateGHSource(ghSource *v1alpha1.GitHubSource) (*
 
 // UpdateGHSource is used to update a GHSource
 func (client *ghSourceClient) UpdateGHSource(ghSource *v1alpha1.GitHubSource) (*v1alpha1.GitHubSource, error) {
-	ghSource, err := client.sourcesClient.GitHubSources(client.namespace).Update(ghSource)
+	ghSource, err := client.SourcesClient().GitHubSources(client.namespace).Update(ghSource)
 	if err != nil {
 		return nil, knerrors.GetError(err)
 	}
@@ -100,21 +97,10 @@ func (client *ghSourceClient) UpdateGHSource(ghSource *v1alpha1.GitHubSource) (*
 
 // DeleteGHSource is used to delete an GHSource
 func (client *ghSourceClient) DeleteGHSource(name string) error {
-	err := client.sourcesClient.GitHubSources(client.namespace).Delete(name, &v1.DeleteOptions{})
+	err := client.SourcesClient().GitHubSources(client.namespace).Delete(name, &v1.DeleteOptions{})
 	if err != nil {
 		return knerrors.GetError(err)
 	}
 
 	return nil
-}
-
-// Private
-
-func newSourcesClient(ghSourceParams *types.GHSourceParams) (*clientv1alpha1.SourcesV1alpha1Client, error) {
-	restConfig, err := ghSourceParams.KnSourceParams.RestConfig()
-	if err != nil {
-		return nil, err
-	}
-
-	return clientv1alpha1.NewForConfig(restConfig)
 }
