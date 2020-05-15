@@ -21,10 +21,16 @@ import (
 
 type DefautKnSourceFactory struct {
 	knSourceParams *types.KnSourceParams
+
+	knSourceClientFunc KnSourceClientFunc
 }
 
+type KnSourceClientFunc = func(knSourceParams *types.KnSourceParams, namespace string) types.KnSourceClient
+
 func NewDefaultKnSourceFactory() types.KnSourceFactory {
-	return &DefautKnSourceFactory{}
+	return &DefautKnSourceFactory{
+		knSourceClientFunc: client.NewKnSourceClient,
+	}
 }
 
 func (f *DefautKnSourceFactory) CreateKnSourceParams() *types.KnSourceParams {
@@ -34,5 +40,5 @@ func (f *DefautKnSourceFactory) CreateKnSourceParams() *types.KnSourceParams {
 }
 
 func (f *DefautKnSourceFactory) CreateKnSourceClient(namespace string) types.KnSourceClient {
-	return client.NewKnSourceClient(f.knSourceParams, namespace)
+	return f.knSourceClientFunc(f.knSourceParams, namespace)
 }

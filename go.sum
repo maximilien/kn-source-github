@@ -247,8 +247,8 @@ github.com/mattn/go-runewidth v0.0.2/go.mod h1:LwmH8dsx7+W8Uxz3IHJYH5QSwggIsqBzp
 github.com/matttproud/golang_protobuf_extensions v1.0.1 h1:4hp9jkHxhMHkqkrB3Ix0jegS5sx/RkqARlsWZ6pIwiU=
 github.com/matttproud/golang_protobuf_extensions v1.0.1/go.mod h1:D8He9yQNgCq6Z5Ld7szi9bcBfOoFv/3dc6xSMkL2PC0=
 github.com/maxbrunsfeld/counterfeiter/v6 v6.2.2/go.mod h1:eD9eIE7cdwcMi9rYluz88Jz2VyhSmden33/aXg4oVIY=
-github.com/maximilien/kn-source-pkg v0.4.2 h1:PYousj6tX+JLcAfssTz4XZNxwaHNyLani3Z1ZhmB9Kg=
-github.com/maximilien/kn-source-pkg v0.4.2/go.mod h1:e7osu4ez5Jav8YtqLJJaFun0B38hdvg64Bf9MtBjXwg=
+github.com/maximilien/kn-source-pkg v0.4.3 h1:1FXTptsyxHiZHxl2kIQrDLCB+GID+/R4lOPEK9DwOZA=
+github.com/maximilien/kn-source-pkg v0.4.3/go.mod h1:W01XRqtULe4AmnluTcN1xIr2WHh24Fl7MIelsmuY/7g=
 github.com/mitchellh/go-homedir v1.1.0 h1:lukF9ziXFxDFPkA1vsr5zpc1XuPDn/wFntq5mG+4E0Y=
 github.com/mitchellh/go-homedir v1.1.0/go.mod h1:SfyaCUpYCn1Vlf4IUYiD9fPX4A5wJrkLzIz1N1q0pr0=
 github.com/mitchellh/mapstructure v1.1.2 h1:fmNYVwqnSfB9mZU6OS2O6GsXM+wcskZDuKQzvN1EDeE=

@@ -11,6 +11,8 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
+//go:generate go run github.com/maxbrunsfeld/counterfeiter/v6 -generate
 
 package types
 
@@ -21,14 +23,19 @@ import (
 	clientv1alpha1 "knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1"
 )
 
+// RunE abstracts the Cobra RunE interface into a usable type
 type RunE = func(cmd *cobra.Command, args []string) error
 
+// KnSourceClient is the base interface for all kn-source-extension
+//counterfeiter:generate . KnSourceClient
 type KnSourceClient interface {
 	KnSourceParams() *KnSourceParams
 	Namespace() string
 	SourcesClient() clientv1alpha1.SourcesV1alpha1Interface
 }
 
+// KnSourceFactory is the base factory interface for all kn-source-extension factories
+//counterfeiter:generate . KnSourceFactory
 type KnSourceFactory interface {
 	KnSourceParams() *KnSourceParams
 
@@ -36,6 +43,8 @@ type KnSourceFactory interface {
 	CreateKnSourceClient(namespace string) KnSourceClient
 }
 
+// CommandFactory is the factory for cobra.Command objects
+//counterfeiter:generate . CommandFactory
 type CommandFactory interface {
 	SourceCommand() *cobra.Command
 
@@ -47,6 +56,8 @@ type CommandFactory interface {
 	KnSourceFactory() KnSourceFactory
 }
 
+// FlagsFactory is the factory for pflag.FlagSet objects
+//counterfeiter:generate . FlagsFactory
 type FlagsFactory interface {
 	CreateFlags() *pflag.FlagSet
 	DeleteFlags() *pflag.FlagSet
@@ -56,6 +67,8 @@ type FlagsFactory interface {
 	KnSourceFactory() KnSourceFactory
 }
 
+// RunEFactory is the factory for RunE objects
+//counterfeiter:generate . RunEFactory
 type RunEFactory interface {
 	CreateRunE() RunE
 	DeleteRunE() RunE
