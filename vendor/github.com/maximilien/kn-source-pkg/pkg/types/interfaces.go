@@ -20,7 +20,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 
-	clientv1alpha1 "knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1"
+	"k8s.io/client-go/rest"
 )
 
 // RunE abstracts the Cobra RunE interface into a usable type
@@ -31,7 +31,7 @@ type RunE = func(cmd *cobra.Command, args []string) error
 type KnSourceClient interface {
 	KnSourceParams() *KnSourceParams
 	Namespace() string
-	SourcesClient() clientv1alpha1.SourcesV1alpha1Interface
+	RestConfig() *rest.Config
 }
 
 // KnSourceFactory is the base factory interface for all kn-source-extension factories

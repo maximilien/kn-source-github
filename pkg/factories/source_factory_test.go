@@ -17,43 +17,61 @@ package factories
 import (
 	"testing"
 
+	"github.com/maximilien/kn-source-github/pkg/client"
+	"github.com/maximilien/kn-source-github/pkg/types"
+
+	"knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
+
 	"gotest.tools/assert"
+
+	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
 func TestNewGHSourceFactory(t *testing.T) {
-	ghSourceFactory := NewGHSourceFactory()
+	ghSourceFactory := createFakeGHSourceFactory()
 
 	assert.Assert(t, ghSourceFactory != nil)
 }
 
 func TestCreateKnSourceParams(t *testing.T) {
-	ghSourceFactory := NewGHSourceFactory()
+	ghSourceFactory := createFakeGHSourceFactory()
 
 	ghSourceParams := ghSourceFactory.CreateKnSourceParams()
 	assert.Assert(t, ghSourceParams != nil)
 }
 
 func TestCreateGHSourceParams(t *testing.T) {
-	ghSourceFactory := NewGHSourceFactory()
+	ghSourceFactory := createFakeGHSourceFactory()
 
 	ghSourceParams := ghSourceFactory.CreateGHSourceParams()
 	assert.Assert(t, ghSourceParams != nil)
 }
 
-// TODO: fix this
-func _TestCreateKnSourceClient(t *testing.T) {
-	ghSourceFactory := NewGHSourceFactory()
+func TestCreateKnSourceClient(t *testing.T) {
+	ghSourceFactory := createFakeGHSourceFactory()
 	client := ghSourceFactory.CreateKnSourceClient("fake-namespace")
 
 	assert.Assert(t, client != nil)
 	assert.Equal(t, client.Namespace(), "fake-namespace")
 }
 
-// TODO: fix this
-func _TestCreateGHSourceClient(t *testing.T) {
-	ghSourceFactory := NewGHSourceFactory()
+func TestCreateGHSourceClient(t *testing.T) {
+	ghSourceFactory := createFakeGHSourceFactory()
 	client := ghSourceFactory.CreateGHSourceClient("fake-namespace")
 
 	assert.Assert(t, client != nil)
 	assert.Equal(t, client.Namespace(), "fake-namespace")
+}
+
+// Private
+
+func createFakeGHSourceFactory() types.GHSourceFactory {
+	fakeGHSourceClient := client.NewFakeGHSourceClient(client.NewFakeGHSourceParams(), &v1alpha1.GitHubSource{})
+
+	return &ghSourceFactory{
+		ghSourceParams: &types.GHSourceParams{
+			KnSourceParams: &sourcetypes.KnSourceParams{},
+		},
+		ghSourceClient: fakeGHSourceClient,
+	}
 }

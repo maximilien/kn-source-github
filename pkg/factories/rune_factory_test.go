@@ -18,54 +18,37 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
-
-	"github.com/maximilien/kn-source-github/pkg/types"
 )
 
 func TestNewGHRunEFactory(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 	assert.Assert(t, runEFactory != nil)
 }
 
 func TestCreateRunE(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	createRunE := runEFactory.CreateRunE()
 	assert.Assert(t, createRunE != nil)
-
-	//TODO implement me
 }
 
 func TestDeleteRunE(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	deleteRunE := runEFactory.DeleteRunE()
 	assert.Assert(t, deleteRunE != nil)
-
-	//TODO implement me
 }
 
 func TestUpdateRunE(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	updateRunE := runEFactory.UpdateRunE()
 	assert.Assert(t, updateRunE != nil)
-
-	//TODO implement me
 }
 
 func TestDescribeRunE(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	describeRunE := runEFactory.DescribeRunE()
 	assert.Assert(t, describeRunE != nil)
-
-	//TODO implement me
-}
-
-// Private
-
-func createGHRunEFactory() types.GHRunEFactory {
-	ghSourceFactory := NewGHSourceFactory()
-	return NewGHRunEFactory(ghSourceFactory)
 }

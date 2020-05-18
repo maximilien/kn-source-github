@@ -27,6 +27,9 @@ fi
 
 set -eu
 
+# counterfeiter
+COUNTERFEITER=github.com/maxbrunsfeld/counterfeiter/v6
+
 # Run build
 run() {
   # Switch on modules unconditionally
@@ -103,6 +106,12 @@ codegen() {
 
   # Check for license headers
   check_license
+
+  # Generate fakes
+  generate_fakes
+
+  # Generate fakes
+  generate_docs
 }
 
 go_fmt() {
@@ -188,7 +197,7 @@ check_license() {
 
   local check_output=$(mktemp /tmp/kn-source_github-licence-check.XXXXXX)
   for ext in "${extensions_to_check[@]}"; do
-    find . -name "*.$ext" -a \! -path "./vendor/*" -a \! -path "./.*" -print0 |
+    find . -name "*.$ext" -a \! -path "./vendor/*" -a \! -path "./pkg/*fakes*" -a \! -path "./.*" -print0 |
       while IFS= read -r -d '' path; do
         for rword in "${required_keywords[@]}"; do
           if ! grep -q "$rword" "$path"; then
@@ -219,6 +228,41 @@ generate_docs() {
   rm -rf "./docs/cmd"
   mkdir -p "./docs/cmd"
   go run "./hack/generate_docs.go" "."
+}
+
+generate_fakes() {
+  echo "🎭 Fakes (pkg/types)"
+  mkdir -p ./pkg/types/typesfakes
+  genfakes=false
+  for f in ./pkg/types/*.go 
+  do
+    if [ "$f" -nt ./pkg/types/typesfakes ]; then
+      echo "Found newer file: $f, generating new fakes"
+      genfakes=true
+    fi
+  done
+  if $genfakes ; then
+    rm -rf "./pkg/types/typesfakes"
+    mkdir -p "./pkg/types/typesfakes"
+    go generate ./pkg/types/...
+  fi
+  
+  echo "🎭 Fakes (3rd parties)"
+  mkdir -p "./pkg/fakes"
+
+  TYPES_PACKAGE=knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources/v1alpha1
+  TYPES=( SourcesV1alpha1Interface GitHubSourcesGetter GitHubSourceInterface )
+  FILES=( ./vendor/knative.dev/eventing-contrib/github/pkg/client/clientset/versioned/typed/sources )
+  CFILES=( fake_sources_v1alpha1interface.go fake_sources_githubsourcesgetter.go fake_sources_githubsourceinterface.go )
+  
+  i=0
+  for t in ${TYPES[@]}
+  do
+    if [[ ${FILES[0]} -nt ./pkg/fakes/${CFILES[$i]} ]]; then
+      go run $COUNTERFEITER -o ./pkg/fakes/${CFILES[$i]} $TYPES_PACKAGE.$t
+    fi
+    i=$((i+1))
+  done
 }
 
 watch() {
@@ -357,6 +401,7 @@ Examples:
 * Run only tests: .................... build.sh --test
 * Run only e2e tests: ................ build.sh --e2e
 * Compile with tests: ................ build.sh -f -t
+* Generate fakes: .................... build.sh --codegen
 * Automatic recompilation: ........... build.sh --watch
 * Build cross platform binaries: ..... build.sh --all
 EOT

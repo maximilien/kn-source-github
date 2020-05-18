@@ -19,44 +19,60 @@ import (
 
 	"gotest.tools/assert"
 
-	"github.com/maximilien/kn-source-github/pkg/types"
+	"knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
 )
 
 func TestKnSourceParams(t *testing.T) {
-	//TODO add test here
+	ghSourceParams := NewFakeGHSourceParams()
+	ghSourceClient := NewFakeGHSourceClient(ghSourceParams, &v1alpha1.GitHubSource{})
+
+	assert.Equal(t, ghSourceClient.KnSourceParams(), ghSourceParams.KnSourceParams)
 }
 
-// TODO: fix this
-func _TestGHSourceParams(t *testing.T) {
-	fakeGHSourceParams := &types.GHSourceParams{}
-	ghSourceClient := NewGHSourceClient(fakeGHSourceParams, "fake-namespace")
-	assert.Equal(t, ghSourceClient.GHSourceParams(), fakeGHSourceParams)
+func TestGHSourceParams(t *testing.T) {
+	ghSourceParams := NewFakeGHSourceParams()
+	ghSourceClient := NewFakeGHSourceClient(ghSourceParams, &v1alpha1.GitHubSource{})
+
+	assert.Equal(t, ghSourceClient.GHSourceParams(), ghSourceParams)
 }
 
-// TODO: fix this
-func _TestNamespace(t *testing.T) {
-	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
+func TestNamespace(t *testing.T) {
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), &v1alpha1.GitHubSource{})
 	assert.Equal(t, ghSourceClient.Namespace(), "fake-namespace")
 }
 
-// TODO: fix me
-func _TestSourcesClient(t *testing.T) {
-	ghSourceClient := NewGHSourceClient(&types.GHSourceParams{}, "fake-namespace")
-	assert.Assert(t, ghSourceClient.SourcesClient() != nil)
+func TestRestConfig(t *testing.T) {
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), &v1alpha1.GitHubSource{})
+	assert.Assert(t, ghSourceClient.RestConfig() != nil)
 }
 
 func TestGetGHSource(t *testing.T) {
-	//TODO add test here
+	fakeGHSource := &v1alpha1.GitHubSource{}
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), fakeGHSource)
+	ghSource, err := ghSourceClient.GetGHSource("fake-name")
+	assert.Assert(t, err == nil)
+	assert.Assert(t, ghSource == fakeGHSource)
 }
 
 func TestCreateGHSource(t *testing.T) {
-	//TODO add test here
+	fakeGHSource := &v1alpha1.GitHubSource{}
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), fakeGHSource)
+	ghSource, err := ghSourceClient.CreateGHSource(fakeGHSource)
+	assert.Assert(t, err == nil)
+	assert.Assert(t, ghSource == fakeGHSource)
 }
 
 func TestUpdateGHSource(t *testing.T) {
-	//TODO add test here
+	fakeGHSource := &v1alpha1.GitHubSource{}
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), fakeGHSource)
+	ghSource, err := ghSourceClient.UpdateGHSource(fakeGHSource)
+	assert.Assert(t, err == nil)
+	assert.Assert(t, ghSource == fakeGHSource)
 }
 
 func TestDeleteGHSource(t *testing.T) {
-	//TODO add test here
+	fakeGHSource := &v1alpha1.GitHubSource{}
+	ghSourceClient := NewFakeGHSourceClient(NewFakeGHSourceParams(), fakeGHSource)
+	err := ghSourceClient.DeleteGHSource("fake-name")
+	assert.Assert(t, err == nil)
 }

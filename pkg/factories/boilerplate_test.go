@@ -69,28 +69,27 @@ func TestFlagsFactory_GHSourceFactory(t *testing.T) {
 
 // RunEFactory
 
-// TODO: fix this test
-func _TestRunEFactory_GHSourceClient(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+func TestRunEFactory_GHSourceClient(t *testing.T) {
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	ghSourceClient := runEFactory.GHSourceClient("fake_namespace")
 	assert.Assert(t, ghSourceClient != nil)
 }
 
 func TestRunEFactory_KnSourceParams(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	assert.Assert(t, runEFactory.GHSourceFactory().KnSourceParams() != nil)
 }
 
 func TestRunEFactory_GHSourceParams(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	assert.Assert(t, runEFactory.GHSourceFactory().GHSourceParams() != nil)
 }
 
 func TestRunEFactory_GHSourceClientFactory(t *testing.T) {
-	runEFactory := createGHRunEFactory()
+	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
 	assert.Assert(t, runEFactory.GHSourceFactory() != nil)
 }

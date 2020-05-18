@@ -19,6 +19,8 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
+
+	duckv1 "knative.dev/pkg/apis/duck/v1"
 )
 
 var builder *GitHubSourceBuilder
@@ -41,7 +43,10 @@ func TestAPIURL(t *testing.T) {
 }
 
 func TestSink(t *testing.T) {
-	//TODO
+	setup(t)
+	fakeSink := &duckv1.Destination{}
+	builder := builder.Sink(fakeSink)
+	assert.Assert(t, builder.ghSource.Spec.Sink == fakeSink)
 }
 
 func TestBuild(t *testing.T) {
