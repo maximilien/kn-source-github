@@ -18,6 +18,8 @@ import (
 	"github.com/maximilien/kn-source-github/pkg/client"
 	"github.com/maximilien/kn-source-github/pkg/types"
 
+	"knative.dev/client/pkg/kn/commands/flags"
+
 	sourcefactories "github.com/maximilien/kn-source-pkg/pkg/factories"
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
@@ -74,7 +76,9 @@ func (f *ghSourceFactory) initGHSourceClient(namespace string) {
 
 func (f *ghSourceFactory) initGHSourceParams() {
 	f.ghSourceParams = &types.GHSourceParams{
-		KnSourceParams: f.knSourceFactory.CreateKnSourceParams(),
+		KnSourceParams: &sourcetypes.KnSourceParams{
+			SinkFlag: flags.SinkFlags{},
+		},
 	}
 	f.ghSourceParams.KnSourceParams.Initialize()
 }

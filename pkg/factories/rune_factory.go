@@ -18,12 +18,12 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/spf13/cobra"
+
 	"github.com/maximilien/kn-source-github/pkg/client"
 	"github.com/maximilien/kn-source-github/pkg/types"
 
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
-
-	"github.com/spf13/cobra"
 )
 
 type ghRunEFactory struct {

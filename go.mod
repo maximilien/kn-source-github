@@ -3,7 +3,7 @@ module github.com/maximilien/kn-source-github
 go 1.13
 
 require (
-	github.com/maximilien/kn-source-pkg v0.4.5
+	github.com/maximilien/kn-source-pkg v0.4.6
 	github.com/spf13/cobra v1.0.0
 	github.com/spf13/pflag v1.0.5
 	gotest.tools v2.2.0+incompatible
