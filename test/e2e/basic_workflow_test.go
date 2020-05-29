@@ -57,7 +57,7 @@ func TestBasicWorkflow(t *testing.T) {
 	e2eTest := newE2ETest(t)
 	assert.Assert(t, e2eTest != nil)
 
-	r := test.NewKnRunResultCollector(t)
+	r := test.NewKnRunResultCollector(t, e2eTest.it.KnTest())
 	defer r.DumpIfFailed()
 
 	err := e2eTest.it.KnPlugin().Install()

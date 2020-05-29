@@ -17,10 +17,11 @@ limitations under the License.
 package v1alpha2
 
 import (
-	"knative.dev/pkg/apis"
-
+	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
+	"knative.dev/pkg/apis"
 	duckv1 "knative.dev/pkg/apis/duck/v1"
 	"knative.dev/pkg/kmeta"
 )
@@ -28,28 +29,26 @@ import (
 // +genclient
 // +genreconciler
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// +k8s:defaulter-gen=true
 
-// PingSource is the Schema for the PingSources API.
-type PingSource struct {
+// ContainerSource is the Schema for the containersources API
+type ContainerSource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec   PingSourceSpec   `json:"spec,omitempty"`
-	Status PingSourceStatus `json:"status,omitempty"`
+	Spec   ContainerSourceSpec   `json:"spec,omitempty"`
+	Status ContainerSourceStatus `json:"status,omitempty"`
 }
 
-// Check the interfaces that PingSource should be implementing.
 var (
-	_ runtime.Object     = (*PingSource)(nil)
-	_ kmeta.OwnerRefable = (*PingSource)(nil)
-	_ apis.Validatable   = (*PingSource)(nil)
-	_ apis.Defaultable   = (*PingSource)(nil)
-	_ apis.HasSpec       = (*PingSource)(nil)
+	_ runtime.Object     = (*ContainerSource)(nil)
+	_ kmeta.OwnerRefable = (*ContainerSource)(nil)
+	_ apis.Validatable   = (*ContainerSource)(nil)
+	_ apis.Defaultable   = (*ContainerSource)(nil)
+	_ apis.HasSpec       = (*ContainerSource)(nil)
 )
 
-// PingSourceSpec defines the desired state of the PingSource.
-type PingSourceSpec struct {
+// ContainerSourceSpec defines the desired state of ContainerSource
+type ContainerSourceSpec struct {
 	// inherits duck/v1 SourceSpec, which currently provides:
 	// * Sink - a reference to an object that will resolve to a domain name or
 	//   a URI directly to use as the sink.
@@ -57,19 +56,17 @@ type PingSourceSpec struct {
 	//   and modifications of the event sent to the sink.
 	duckv1.SourceSpec `json:",inline"`
 
-	// Schedule is the cronjob schedule. Defaults to `* * * * *`.
-	// +optional
-	Schedule string `json:"schedule"`
-
-	// JsonData is json encoded data used as the body of the event posted to
-	// the sink. Default is empty. If set, datacontenttype will also be set
-	// to "application/json".
-	// +optional
-	JsonData string `json:"jsonData,omitempty"`
+	// Template describes the pods that will be created
+	Template corev1.PodTemplateSpec `json:"template"`
 }
 
-// PingSourceStatus defines the observed state of PingSource.
-type PingSourceStatus struct {
+// GetGroupVersionKind returns the GroupVersionKind.
+func (s *ContainerSource) GetGroupVersionKind() schema.GroupVersionKind {
+	return SchemeGroupVersion.WithKind("ContainerSource")
+}
+
+// ContainerSourceStatus defines the observed state of ContainerSource
+type ContainerSourceStatus struct {
 	// inherits duck/v1 SourceStatus, which currently provides:
 	// * ObservedGeneration - the 'Generation' of the Service that was last
 	//   processed by the controller.
@@ -82,9 +79,14 @@ type PingSourceStatus struct {
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// PingSourceList contains a list of PingSources.
-type PingSourceList struct {
+// ContainerSourceList contains a list of ContainerSource
+type ContainerSourceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []PingSource `json:"items"`
+	Items           []ContainerSource `json:"items"`
+}
+
+// GetUntypedSpec returns the spec of the ContainerSource.
+func (c *ContainerSource) GetUntypedSpec() interface{} {
+	return c.Spec
 }

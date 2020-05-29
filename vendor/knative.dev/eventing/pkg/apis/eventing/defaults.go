@@ -1,5 +1,5 @@
 /*
-Copyright 2019 The Knative Authors
+Copyright 2020 The Knative Authors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,28 +14,27 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package v1alpha1
+package eventing
 
 import (
 	"context"
 
-	"knative.dev/eventing/pkg/apis/messaging/config"
-	v1beta1 "knative.dev/eventing/pkg/apis/messaging/v1beta1"
-	"knative.dev/pkg/apis"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"knative.dev/eventing/pkg/apis/config"
 )
 
-func (c *Channel) SetDefaults(ctx context.Context) {
-	if c != nil && c.Spec.ChannelTemplate == nil {
+// DefaultBrokerClassIfUnset sets default broker class annotation if unset.
+func DefaultBrokerClassIfUnset(ctx context.Context, obj *metav1.ObjectMeta) {
+	annotations := obj.GetAnnotations()
+	if annotations == nil {
+		annotations = make(map[string]string, 1)
+	}
+	if _, present := annotations[BrokerClassKey]; !present {
 		cfg := config.FromContextOrDefaults(ctx)
-		defaultChannel, err := cfg.ChannelDefaults.GetChannelConfig(apis.ParentMeta(ctx).Namespace)
+		c, err := cfg.Defaults.GetBrokerClass(obj.Namespace)
 		if err == nil {
-			c.Spec.ChannelTemplate = &v1beta1.ChannelTemplateSpec{
-				TypeMeta: defaultChannel.TypeMeta,
-				Spec:     defaultChannel.Spec,
-			}
+			annotations[BrokerClassKey] = c
+			obj.SetAnnotations(annotations)
 		}
 	}
-	c.Spec.SetDefaults(ctx)
 }
-
-func (cs *ChannelSpec) SetDefaults(ctx context.Context) {}
