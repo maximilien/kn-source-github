@@ -43,18 +43,25 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 			return err
 		}
 
-		ghSourceClient := f.GHSourceClient(namespace)
-
 		if len(args) != 1 {
 			return errors.New("requires the NAME of the source to create as single argument")
 		}
 
+		ghSourceClient := f.GHSourceClient(namespace)
+
 		name := args[0]
+
+		// client, err := servingv1client.NewForConfig(ghSourceClient.RestConfig())
+		// if err != nil {
+		// 	return err
+		// }
 
 		dynamicClient, err := f.KnSourceParams().KnParams.NewDynamicClient(namespace)
 		if err != nil {
 			return err
 		}
+
+		fmt.Printf("f.KnSourceParams(): %#v\n", f.KnSourceParams())
 
 		objectRef, err := f.KnSourceParams().SinkFlag.ResolveSink(dynamicClient, namespace)
 		if err != nil {
