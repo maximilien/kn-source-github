@@ -54,11 +54,13 @@ func NewKnSourceCommand(knSourceFactory types.KnSourceFactory,
 	rootCmd.AddCommand(deleteCmd)
 
 	updateCmd := commandFactory.UpdateCommand()
-	addCommonFlags(knSourceParams, updateCmd)
-	addCreateUpdateFlags(knSourceParams, updateCmd)
-	updateCmd.Flags().AddFlagSet(flagsFactory.UpdateFlags())
-	updateCmd.RunE = runEFactory.UpdateRunE()
-	rootCmd.AddCommand(updateCmd)
+	if updateCmd != nil {
+		addCommonFlags(knSourceParams, updateCmd)
+		addCreateUpdateFlags(knSourceParams, updateCmd)
+		updateCmd.Flags().AddFlagSet(flagsFactory.UpdateFlags())
+		updateCmd.RunE = runEFactory.UpdateRunE()
+		rootCmd.AddCommand(updateCmd)
+	}
 
 	describeCmd := commandFactory.DescribeCommand()
 	addCommonFlags(knSourceParams, describeCmd)

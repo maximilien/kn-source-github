@@ -32,7 +32,7 @@ type knSourceClient struct {
 func NewKnSourceClient(knSourceParams *types.KnSourceParams, namespace string) types.KnSourceClient {
 	restConfig, err := knSourceParams.RestConfig()
 	if err != nil {
-		panic(fmt.Sprintf("Could not create GitHub sources client, error: %s", err.Error()))
+		panic(fmt.Sprintf("Could not create Kn source client, error: %s", err.Error()))
 	}
 
 	return &knSourceClient{
