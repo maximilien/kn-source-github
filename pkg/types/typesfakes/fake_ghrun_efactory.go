@@ -7,6 +7,7 @@ import (
 	"github.com/maximilien/kn-source-github/pkg/types"
 	typesa "github.com/maximilien/kn-source-pkg/pkg/types"
 	"github.com/spf13/cobra"
+	"k8s.io/client-go/rest"
 )
 
 type FakeGHRunEFactory struct {
@@ -40,10 +41,11 @@ type FakeGHRunEFactory struct {
 	describeRunEReturnsOnCall map[int]struct {
 		result1 func(cmd *cobra.Command, args []string) error
 	}
-	GHSourceClientStub        func(string) types.GHSourceClient
+	GHSourceClientStub        func(*rest.Config, string) types.GHSourceClient
 	gHSourceClientMutex       sync.RWMutex
 	gHSourceClientArgsForCall []struct {
-		arg1 string
+		arg1 *rest.Config
+		arg2 string
 	}
 	gHSourceClientReturns struct {
 		result1 types.GHSourceClient
@@ -61,10 +63,11 @@ type FakeGHRunEFactory struct {
 	gHSourceFactoryReturnsOnCall map[int]struct {
 		result1 types.GHSourceFactory
 	}
-	KnSourceClientStub        func(string) typesa.KnSourceClient
+	KnSourceClientStub        func(*rest.Config, string) typesa.KnSourceClient
 	knSourceClientMutex       sync.RWMutex
 	knSourceClientArgsForCall []struct {
-		arg1 string
+		arg1 *rest.Config
+		arg2 string
 	}
 	knSourceClientReturns struct {
 		result1 typesa.KnSourceClient
@@ -252,16 +255,17 @@ func (fake *FakeGHRunEFactory) DescribeRunEReturnsOnCall(i int, result1 func(cmd
 	}{result1}
 }
 
-func (fake *FakeGHRunEFactory) GHSourceClient(arg1 string) types.GHSourceClient {
+func (fake *FakeGHRunEFactory) GHSourceClient(arg1 *rest.Config, arg2 string) types.GHSourceClient {
 	fake.gHSourceClientMutex.Lock()
 	ret, specificReturn := fake.gHSourceClientReturnsOnCall[len(fake.gHSourceClientArgsForCall)]
 	fake.gHSourceClientArgsForCall = append(fake.gHSourceClientArgsForCall, struct {
-		arg1 string
-	}{arg1})
-	fake.recordInvocation("GHSourceClient", []interface{}{arg1})
+		arg1 *rest.Config
+		arg2 string
+	}{arg1, arg2})
+	fake.recordInvocation("GHSourceClient", []interface{}{arg1, arg2})
 	fake.gHSourceClientMutex.Unlock()
 	if fake.GHSourceClientStub != nil {
-		return fake.GHSourceClientStub(arg1)
+		return fake.GHSourceClientStub(arg1, arg2)
 	}
 	if specificReturn {
 		return ret.result1
@@ -276,17 +280,17 @@ func (fake *FakeGHRunEFactory) GHSourceClientCallCount() int {
 	return len(fake.gHSourceClientArgsForCall)
 }
 
-func (fake *FakeGHRunEFactory) GHSourceClientCalls(stub func(string) types.GHSourceClient) {
+func (fake *FakeGHRunEFactory) GHSourceClientCalls(stub func(*rest.Config, string) types.GHSourceClient) {
 	fake.gHSourceClientMutex.Lock()
 	defer fake.gHSourceClientMutex.Unlock()
 	fake.GHSourceClientStub = stub
 }
 
-func (fake *FakeGHRunEFactory) GHSourceClientArgsForCall(i int) string {
+func (fake *FakeGHRunEFactory) GHSourceClientArgsForCall(i int) (*rest.Config, string) {
 	fake.gHSourceClientMutex.RLock()
 	defer fake.gHSourceClientMutex.RUnlock()
 	argsForCall := fake.gHSourceClientArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.arg1, argsForCall.arg2
 }
 
 func (fake *FakeGHRunEFactory) GHSourceClientReturns(result1 types.GHSourceClient) {
@@ -364,16 +368,17 @@ func (fake *FakeGHRunEFactory) GHSourceFactoryReturnsOnCall(i int, result1 types
 	}{result1}
 }
 
-func (fake *FakeGHRunEFactory) KnSourceClient(arg1 string) typesa.KnSourceClient {
+func (fake *FakeGHRunEFactory) KnSourceClient(arg1 *rest.Config, arg2 string) typesa.KnSourceClient {
 	fake.knSourceClientMutex.Lock()
 	ret, specificReturn := fake.knSourceClientReturnsOnCall[len(fake.knSourceClientArgsForCall)]
 	fake.knSourceClientArgsForCall = append(fake.knSourceClientArgsForCall, struct {
-		arg1 string
-	}{arg1})
-	fake.recordInvocation("KnSourceClient", []interface{}{arg1})
+		arg1 *rest.Config
+		arg2 string
+	}{arg1, arg2})
+	fake.recordInvocation("KnSourceClient", []interface{}{arg1, arg2})
 	fake.knSourceClientMutex.Unlock()
 	if fake.KnSourceClientStub != nil {
-		return fake.KnSourceClientStub(arg1)
+		return fake.KnSourceClientStub(arg1, arg2)
 	}
 	if specificReturn {
 		return ret.result1
@@ -388,17 +393,17 @@ func (fake *FakeGHRunEFactory) KnSourceClientCallCount() int {
 	return len(fake.knSourceClientArgsForCall)
 }
 
-func (fake *FakeGHRunEFactory) KnSourceClientCalls(stub func(string) typesa.KnSourceClient) {
+func (fake *FakeGHRunEFactory) KnSourceClientCalls(stub func(*rest.Config, string) typesa.KnSourceClient) {
 	fake.knSourceClientMutex.Lock()
 	defer fake.knSourceClientMutex.Unlock()
 	fake.KnSourceClientStub = stub
 }
 
-func (fake *FakeGHRunEFactory) KnSourceClientArgsForCall(i int) string {
+func (fake *FakeGHRunEFactory) KnSourceClientArgsForCall(i int) (*rest.Config, string) {
 	fake.knSourceClientMutex.RLock()
 	defer fake.knSourceClientMutex.RUnlock()
 	argsForCall := fake.knSourceClientArgsForCall[i]
-	return argsForCall.arg1
+	return argsForCall.arg1, argsForCall.arg2
 }
 
 func (fake *FakeGHRunEFactory) KnSourceClientReturns(result1 typesa.KnSourceClient) {

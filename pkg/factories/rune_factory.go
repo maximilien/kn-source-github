@@ -47,14 +47,14 @@ func (f *ghRunEFactory) CreateRunE() sourcetypes.RunE {
 			return errors.New("requires the NAME of the source to create as single argument")
 		}
 
-		ghSourceClient := f.GHSourceClient(namespace)
+		restConfig, err := f.KnSourceParams().KnParams.RestConfig()
+		if err != nil {
+			return err
+		}
+
+		ghSourceClient := f.GHSourceClient(restConfig, namespace)
 
 		name := args[0]
-
-		// client, err := servingv1client.NewForConfig(ghSourceClient.RestConfig())
-		// if err != nil {
-		// 	return err
-		// }
 
 		dynamicClient, err := f.KnSourceParams().KnParams.NewDynamicClient(namespace)
 		if err != nil {
@@ -96,7 +96,12 @@ func (f *ghRunEFactory) DeleteRunE() sourcetypes.RunE {
 			return err
 		}
 
-		ghSourceClient := f.GHSourceClient(namespace)
+		restConfig, err := f.KnSourceParams().KnParams.RestConfig()
+		if err != nil {
+			return err
+		}
+
+		ghSourceClient := f.GHSourceClient(restConfig, namespace)
 
 		if len(args) != 1 {
 			return errors.New("requires the NAME of the source to `delete` as single argument")
@@ -124,7 +129,12 @@ func (f *ghRunEFactory) UpdateRunE() sourcetypes.RunE {
 			return err
 		}
 
-		ghSourceClient := f.GHSourceClient(namespace)
+		restConfig, err := f.KnSourceParams().KnParams.RestConfig()
+		if err != nil {
+			return err
+		}
+
+		ghSourceClient := f.GHSourceClient(restConfig, namespace)
 
 		if len(args) != 1 {
 			return errors.New("requires the NAME of the source to update as single argument")
@@ -170,7 +180,12 @@ func (f *ghRunEFactory) DescribeRunE() sourcetypes.RunE {
 			return err
 		}
 
-		ghSourceClient := f.GHSourceClient(namespace)
+		restConfig, err := f.KnSourceParams().KnParams.RestConfig()
+		if err != nil {
+			return err
+		}
+
+		ghSourceClient := f.GHSourceClient(restConfig, namespace)
 
 		if len(args) != 1 {
 			return errors.New("requires the NAME of the source to `describe` as single argument")

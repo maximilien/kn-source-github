@@ -37,11 +37,11 @@ type ghSourceClient struct {
 	ghSourcesV1    clientv1alpha1.SourcesV1alpha1Interface
 }
 
-func NewGHSourceClient(ghSourceParams *types.GHSourceParams, namespace string) types.GHSourceClient {
+func NewGHSourceClient(ghSourceParams *types.GHSourceParams, restConfig *rest.Config, namespace string) types.GHSourceClient {
 	return &ghSourceClient{
 		namespace:      namespace,
 		ghSourceParams: ghSourceParams,
-		knSourceClient: sourceclient.NewKnSourceClient(ghSourceParams.KnSourceParams, namespace),
+		knSourceClient: sourceclient.NewKnSourceClient(ghSourceParams.KnSourceParams, restConfig, namespace),
 	}
 }
 

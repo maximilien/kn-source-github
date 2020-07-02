@@ -16,6 +16,7 @@ package factories
 
 import (
 	"github.com/maximilien/kn-source-github/pkg/types"
+	"k8s.io/client-go/rest"
 
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
@@ -82,12 +83,12 @@ func (f *ghRunEFactory) KnSourceParams() *sourcetypes.KnSourceParams {
 	return f.GHSourceFactory().KnSourceParams()
 }
 
-func (f *ghRunEFactory) KnSourceClient(namespace string) sourcetypes.KnSourceClient {
-	return f.GHSourceFactory().CreateGHSourceClient(namespace)
+func (f *ghRunEFactory) KnSourceClient(restConfig *rest.Config, namespace string) sourcetypes.KnSourceClient {
+	return f.GHSourceFactory().CreateGHSourceClient(restConfig, namespace)
 }
 
-func (f *ghRunEFactory) GHSourceClient(namespace string) types.GHSourceClient {
-	return f.GHSourceFactory().CreateGHSourceClient(namespace)
+func (f *ghRunEFactory) GHSourceClient(restConfig *rest.Config, namespace string) types.GHSourceClient {
+	return f.GHSourceFactory().CreateGHSourceClient(restConfig, namespace)
 }
 
 func (f *ghRunEFactory) KnSourceFactory() sourcetypes.KnSourceFactory {

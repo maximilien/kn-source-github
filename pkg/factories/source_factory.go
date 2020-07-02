@@ -20,6 +20,8 @@ import (
 
 	"knative.dev/client/pkg/kn/commands/flags"
 
+	"k8s.io/client-go/rest"
+
 	sourcefactories "github.com/maximilien/kn-source-pkg/pkg/factories"
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
@@ -53,22 +55,22 @@ func (f *ghSourceFactory) CreateGHSourceParams() *types.GHSourceParams {
 	return f.ghSourceParams
 }
 
-func (f *ghSourceFactory) CreateKnSourceClient(namespace string) sourcetypes.KnSourceClient {
-	return f.CreateGHSourceClient(namespace)
+func (f *ghSourceFactory) CreateKnSourceClient(restConfig *rest.Config, namespace string) sourcetypes.KnSourceClient {
+	return f.CreateGHSourceClient(restConfig, namespace)
 }
 
-func (f *ghSourceFactory) CreateGHSourceClient(namespace string) types.GHSourceClient {
+func (f *ghSourceFactory) CreateGHSourceClient(restConfig *rest.Config, namespace string) types.GHSourceClient {
 	if f.ghSourceClient == nil {
-		f.initGHSourceClient(namespace)
+		f.initGHSourceClient(restConfig, namespace)
 	}
 	return f.ghSourceClient
 }
 
 // Private
 
-func (f *ghSourceFactory) initGHSourceClient(namespace string) {
+func (f *ghSourceFactory) initGHSourceClient(restConfig *rest.Config, namespace string) {
 	if f.ghSourceClient == nil {
-		f.ghSourceClient = client.NewGHSourceClient(f.GHSourceParams(), namespace)
+		f.ghSourceClient = client.NewGHSourceClient(f.GHSourceParams(), restConfig, namespace)
 	}
 }
 

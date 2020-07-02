@@ -24,6 +24,8 @@ import (
 
 	"gotest.tools/assert"
 
+	"k8s.io/client-go/rest"
+
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 )
 
@@ -49,7 +51,8 @@ func TestCreateGHSourceParams(t *testing.T) {
 
 func TestCreateKnSourceClient(t *testing.T) {
 	ghSourceFactory := createFakeGHSourceFactory()
-	client := ghSourceFactory.CreateKnSourceClient("fake-namespace")
+	fakeRestConfig := &rest.Config{}
+	client := ghSourceFactory.CreateKnSourceClient(fakeRestConfig, "fake-namespace")
 
 	assert.Assert(t, client != nil)
 	assert.Equal(t, client.Namespace(), "fake-namespace")
@@ -57,7 +60,8 @@ func TestCreateKnSourceClient(t *testing.T) {
 
 func TestCreateGHSourceClient(t *testing.T) {
 	ghSourceFactory := createFakeGHSourceFactory()
-	client := ghSourceFactory.CreateGHSourceClient("fake-namespace")
+	fakeRestConfig := &rest.Config{}
+	client := ghSourceFactory.CreateGHSourceClient(fakeRestConfig, "fake-namespace")
 
 	assert.Assert(t, client != nil)
 	assert.Equal(t, client.Namespace(), "fake-namespace")

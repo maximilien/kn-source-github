@@ -18,6 +18,8 @@ import (
 	"testing"
 
 	"gotest.tools/assert"
+
+	"k8s.io/client-go/rest"
 )
 
 // KnSourceFactory
@@ -72,7 +74,7 @@ func TestFlagsFactory_GHSourceFactory(t *testing.T) {
 func TestRunEFactory_GHSourceClient(t *testing.T) {
 	runEFactory := NewGHRunEFactory(createFakeGHSourceFactory())
 
-	ghSourceClient := runEFactory.GHSourceClient("fake_namespace")
+	ghSourceClient := runEFactory.GHSourceClient(&rest.Config{}, "fake_namespace")
 	assert.Assert(t, ghSourceClient != nil)
 }
 

@@ -19,6 +19,8 @@ package types
 import (
 	sourcetypes "github.com/maximilien/kn-source-pkg/pkg/types"
 
+	"k8s.io/client-go/rest"
+
 	v1alpha1 "knative.dev/eventing-contrib/github/pkg/apis/sources/v1alpha1"
 )
 
@@ -43,7 +45,7 @@ type GHSourceFactory interface {
 	GHSourceClient() GHSourceClient
 
 	CreateGHSourceParams() *GHSourceParams
-	CreateGHSourceClient(namespace string) GHSourceClient
+	CreateGHSourceClient(restConfig *rest.Config, namespace string) GHSourceClient
 }
 
 // GHCommandFactory the GitHub source command factory interface
@@ -68,5 +70,5 @@ type GHRunEFactory interface {
 	sourcetypes.RunEFactory
 
 	GHSourceFactory() GHSourceFactory
-	GHSourceClient(namespace string) GHSourceClient
+	GHSourceClient(restConfig *rest.Config, namespace string) GHSourceClient
 }
