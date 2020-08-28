@@ -58,7 +58,7 @@ kn source github create NAME --org knative --repo client-contrib --access-token 
       --org string            The GitHub organization or username
       --repo string           Repository name to consume messages from
       --secret-token string   The GitHub secret-token to use
-  -s, --sink string           Addressable sink for events
+  -s, --sink string           Addressable sink for events. You can specify a broker, Knative service or URI. Examples: '--sink broker:nest' for a broker 'nest', '--sink https://event.receiver.uri' for an URI with an 'http://' or 'https://' schema, '--sink 'ksvc:receiver' or simply '--sink receiver' for a Knative service 'receiver'. If prefix is not provided, it is considered as a Knative service.
 ```
 
 #### SEE ALSO
@@ -157,7 +157,7 @@ kn source github update NAME
       --org string            The GitHub organization or username
       --repo string           Repository name to consume messages from
       --secret-token string   The GitHub secret-token to use
-  -s, --sink string           Addressable sink for events
+  -s, --sink string           Addressable sink for events. You can specify a broker, Knative service or URI. Examples: '--sink broker:nest' for a broker 'nest', '--sink https://event.receiver.uri' for an URI with an 'http://' or 'https://' schema, '--sink 'ksvc:receiver' or simply '--sink receiver' for a Knative service 'receiver'. If prefix is not provided, it is considered as a Knative service.
 ```
 
 #### SEE ALSO
